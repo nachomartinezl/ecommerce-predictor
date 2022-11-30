@@ -18,9 +18,6 @@ nlp = spacy.load('en_core_web_sm')
 
 def remove_html_tags(text):
     # Put your code
-    #text = BeautifulSoup(html.unescape(text), "lxml").text
-    #text = re.sub(r"http[s]?://\S+", "", text)
-    #text = re.sub(r"\s+", " ", text)
     remove_html = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
     text = re.sub(remove_html, '', text)
     return text
