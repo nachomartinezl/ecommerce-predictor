@@ -9,3 +9,4 @@ gensim==4.2.0
 lazypredict==0.2.12
 xgboost==1.7.1
 flatten-json==0.1.13
+seaborn
