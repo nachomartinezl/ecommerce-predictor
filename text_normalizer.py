@@ -3,8 +3,6 @@ import nltk
 import spacy
 import unicodedata
 
-
-from bs4 import BeautifulSoup
 from contractions import CONTRACTION_MAP
 from nltk.tokenize.toktok import ToktokTokenizer
 from nltk.stem.porter import PorterStemmer
