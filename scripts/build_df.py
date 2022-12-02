@@ -2,7 +2,7 @@ import json
 import pandas as pd
 import numpy as np
 
-def build_categories_df(json_path: str, threshold: int): 
+def build_df(json_path: str, threshold: int, preprocessed_csv: str = None): 
     # Save json into dict
     with open(json_path) as f:
         products_dic = json.load(f)
@@ -11,16 +11,21 @@ def build_categories_df(json_path: str, threshold: int):
     all_cats_dict = []
     for dic in products_dic:
         new_dict = {}
-        # Add name and description
-        new_dict["name"] = dic["name"]
-        new_dict["description"] = dic["description"]
+        if preprocessed_csv == None:
+            # Add name and description
+            new_dict["name"] = dic["name"]
+            new_dict["description"] = dic["description"]
         
         # Add category names respecting hierarchy
         for i in range(len(dic["category"])):
             new_dict["category_" + str(i)] = dic["category"][i]["id"]
         all_cats_dict.append(new_dict)
-        
+    
     df = pd.DataFrame(all_cats_dict)
+    
+    if preprocessed_csv != None:
+        df.insert(0, "name", pd.read_csv(preprocessed_csv)["name"])
+        df.insert(1, "description", pd.read_csv(preprocessed_csv)["description"])
     
     # Get number of category columns
     number_of_categories_columns = len(get_category_columns(df))
