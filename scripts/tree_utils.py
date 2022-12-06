@@ -8,7 +8,7 @@ def make_tree(df, df_column_cat, root_name):
   Using anytree library generate the tree and print it, and return a dictionary 
   
   Parameters:
-  df = a column data frame
+  df = pd.DataFrame a column data frame
   df_column_cat: a column of a data frame which values are a simple dictinary or a list of them
   root_name: str
   
@@ -80,4 +80,4 @@ def dist_nodes(node_nm1, node_nm2, cat_tree_dict):
             dist +=0
         else:
             dist += 1
-    return dist # (dist, common_path)
+    return dist 
