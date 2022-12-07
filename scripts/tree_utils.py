@@ -64,11 +64,12 @@ def dist_nodes(node_nm1, node_nm2, cat_tree_dict):
     
     len_list_path = [len(path_list1), len(path_list2)]
     
-    for lp in [path_list1, path_list2]:
-      if len(lp) == max(len_list_path):
-        max_length_list = lp
-      else:
-        min_length_list = lp
+    if len(path_list1) == max(len_list_path):
+      max_length_list = path_list1 
+      min_length_list = path_list2
+    else:
+      max_length_list = path_list2
+      min_length_list = path_list1
     
     dist = 1
     common_path = []
