@@ -39,7 +39,7 @@ def lemmatize_text(text):
 
 def expand_contractions(text, contraction_mapping=CONTRACTION_MAP):
     # Put your code
-    for word, replacement in CONTRACTION_MAP.items():
+    for word, replacement in contraction_mapping.items():
         text = text.replace(word, replacement)     
     return text
 

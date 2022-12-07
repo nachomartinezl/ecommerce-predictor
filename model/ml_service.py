@@ -7,17 +7,16 @@ import settings
 from joblib import load
 from text_normalizer import normalize_corpus, stopword_list, tokenizer
 from utils import vectorizer, decode_id
-#from tensorflow.keras.applications import ResNet50
-#from tensorflow.keras.applications.resnet50 import decode_predictions, preprocess_input
-#from tensorflow.keras.preprocessing import image
+
+# from tensorflow.keras.applications import ResNet50
+# from tensorflow.keras.applications.resnet50 import decode_predictions, preprocess_input
+# from tensorflow.keras.preprocessing import image
 
 # TODO
 # Connect to Redis and assign to variable `db``
 # Make use of settings.py module to get Redis settings like host, port, etc.
 db = redis.Redis(
-    host = settings.REDIS_IP, 
-    port = settings.REDIS_PORT, 
-    db = settings.REDIS_DB_ID
+    host=settings.REDIS_IP, port=settings.REDIS_PORT, db=settings.REDIS_DB_ID
 )
 
 # TODO
@@ -25,10 +24,11 @@ db = redis.Redis(
 # See https://drive.google.com/file/d/1ADuBSE4z2ZVIdn66YDSwxKv-58U7WEOn/view?usp=sharing
 # for more information about how to use this model.
 
-#image_model = ResNet50(include_top=True, weights="imagenet")
-#name_model = load('tfidf.joblib')
-desc_model = load('logreg.joblib') 
-vec_model = load('w2v.joblib')
+# image_model = ResNet50(include_top=True, weights="imagenet")
+# name_model = load('tfidf.joblib')
+desc_model = load("logreg.joblib")
+vec_model = load("w2v.joblib")
+
 
 def predict(image_name, name, description):
     """
@@ -58,15 +58,15 @@ def predict(image_name, name, description):
         score as a number.
     """
     # TODO
-    
-    #img = image.load_img(os.path.join(settings.UPLOAD_FOLDER, image_name), target_size=(224, 224))
-    #x = image.img_to_array(img)
-    #x_batch = np.expand_dims(x, axis=0)
-    #x_batch = preprocess_input(x_batch)
-    #preds_1 = image_model.predict(x_batch)
-    #label = decode_predictions(preds, top=1)
-    #class_name = label[0][0][1]
-    #pred_probability = float(label[0][0][2])
+
+    # img = image.load_img(os.path.join(settings.UPLOAD_FOLDER, image_name), target_size=(224, 224))
+    # x = image.img_to_array(img)
+    # x_batch = np.expand_dims(x, axis=0)
+    # x_batch = preprocess_input(x_batch)
+    # preds_1 = image_model.predict(x_batch)
+    # label = decode_predictions(preds, top=1)
+    # class_name = label[0][0][1]
+    # pred_probability = float(label[0][0][2])
 
     normalized_desc = normalize_corpus(
         [description],
@@ -79,16 +79,16 @@ def predict(image_name, name, description):
         special_char_removal=True,
         remove_digits=False,
         stopword_removal=True,
-        stopwords=stopword_list
+        stopwords=stopword_list,
     )
     tok_desc = [tokenizer.tokenize(doc) for doc in normalized_desc]
-    vec_desc = vectorizer(tok_desc, vec_model)[0].reshape(1,-1)
+    vec_desc = vectorizer(tok_desc, vec_model)[0].reshape(1, -1)
     preds_desc = desc_model.predict(vec_desc)
     label = decode_id(preds_desc[0])
     class_name = label
-    #pred_probability = 0.9859596812
-    
-    return class_name #, pred_probability
+    # pred_probability = 0.9859596812
+
+    return class_name  # , pred_probability
 
 
 def classify_process():
@@ -120,14 +120,17 @@ def classify_process():
         msg = db.brpop(settings.REDIS_QUEUE)
         if msg is not None:
             job_data = json.loads(msg[1])
-            prediction = predict(job_data['image_name'], job_data['name'], job_data['description'])
+            prediction = predict(
+                job_data["image_name"], job_data["name"], job_data["description"]
+            )
             output = {
                 "prediction": prediction,
-                #"score": round(score,4)
+                # "score": round(score,4)
             }
-            db.set(job_data['id'], json.dumps(output))
+            db.set(job_data["id"], json.dumps(output))
         # Don't forget to sleep for a bit at the end
         time.sleep(settings.SERVER_SLEEP)
+
 
 if __name__ == "__main__":
     # Now launch process

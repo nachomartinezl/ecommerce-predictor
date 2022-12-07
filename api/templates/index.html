@@ -24,7 +24,6 @@
                 <div class="row">
                     <div class="col-25">
                     <label for="subject">Predicted class: {{ context['prediction'] }} </label><br>
-                    <label for="subject">Score: {{ context['score'] }} </label>
                     </div>
                 </div>
                 <form id="form" method="POST" action="/feedback">
@@ -34,9 +33,12 @@
             {% endif %}
         {% endif %}
         <form method="post" action="/" enctype="multipart/form-data">
-            <input type="file" name="file" autocomplete="off" required>
-            <input type="text" name="name" required>
-            <input type="text" name="description" required>
+            <label for="name">Choose a title for the ad</label><br>
+            <input type="text" name="name" required><br><br>
+            <label for="description">Write a short description:</label><br>
+            <input type="text" name="description" required><br><br>
+            <label for="file">Upload an image of your product</label><br>
+            <input type="file" name="file" autocomplete="off" required><br><br>
             <input type="submit" value="Submit">
         </form>
     </body>
