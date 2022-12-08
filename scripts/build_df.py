@@ -4,8 +4,7 @@ import numpy as np
 
 def build_df(json_path: str, threshold: int, force_leafs_under_threshold: bool, preprocessed_csv: str = None):     
     # Build base dataframe
-    df = build_base_dataframe(json_path, preprocessed_csv)
-    
+    df = build_base_dataframe(json_path, preprocessed_csv)   
     # Get number of category columns
     number_of_categories_columns = len(get_category_columns(df))
     
@@ -54,6 +53,11 @@ def build_df(json_path: str, threshold: int, force_leafs_under_threshold: bool, 
         df["leaf"] = df.apply(lambda row: conditions_leaf(row, number_of_categories_columns), axis=1)
         # "max_depth" column
         df["max_depth"] = df.apply(lambda row: conditions_max_depth(row, number_of_categories_columns), axis=1)
+    
+    # Modify category column to be used by make_tree() according to threshold. 
+    # For those entries below the threshold we assign the following one-entry dictionary
+    other_dict = [{'id': 'other', 'name': 'other'}]
+    df['category'] = df.apply(lambda row: row.category[0: len(row.path)] if row.path != 'other' else other_dict, axis = 1)
 
     # Change "other" for np.nan
     df_nan = df.copy()
@@ -79,11 +83,14 @@ def build_base_dataframe(json_path, preprocessed_csv=None):
             new_dict["name"] = dic["name"]
             new_dict["description"] = dic["description"]
         
+        # Add category (list of dict) to be used by make_tree()
+        new_dict['category'] = dic['category'] 
+        
         # Add category names respecting hierarchy
         for i in range(len(dic["category"])):
             new_dict["category_" + str(i)] = dic["category"][i]["id"]
         all_cats_dict.append(new_dict)
-    
+       
     df = pd.DataFrame(all_cats_dict)
     
     if preprocessed_csv != None:
