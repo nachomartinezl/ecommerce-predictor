@@ -69,7 +69,6 @@ def index():
             prediction = model_predict(filename, name, description)
             context = {
                 "prediction": prediction,
-                #"score": score,
                 "filename": filename
             }
             # Update `render_template()` parameters as needed

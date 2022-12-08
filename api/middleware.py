@@ -76,7 +76,7 @@ def model_predict(image_name, name, description):
         output = db.get(job_id)
         if output is not None:
             results = json.loads(output)
-            prediction = results['prediction'] #, results['score']
+            prediction = results['prediction']
             
             # Don't forget to delete the job from Redis after we get the results!
             # Then exit the loop
@@ -86,4 +86,4 @@ def model_predict(image_name, name, description):
             # Sleep some time waiting for model results
             time.sleep(settings.API_SLEEP)
 
-            return prediction#, score
+            return prediction
