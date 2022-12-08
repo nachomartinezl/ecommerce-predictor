@@ -13,6 +13,7 @@ RUN apt-get update && \
 
 # Add a non-root user
 RUN useradd -ms /bin/bash app
+RUN chown -R app:app /home/app 
 USER app
 
 # Setup some paths
