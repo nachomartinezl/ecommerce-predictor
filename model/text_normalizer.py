@@ -11,7 +11,7 @@ nltk.download('stopwords')
 tokenizer = ToktokTokenizer()
 stemmer = PorterStemmer()
 stopword_list = nltk.corpus.stopwords.words('english')
-nlp = spacy.load('en_core_web_sm')
+#nlp = spacy.load('en_core_web_sm')
 
 
 def remove_html_tags(text):

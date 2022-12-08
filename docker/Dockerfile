@@ -13,7 +13,7 @@ RUN apt-get update && \
 
 # Add a non-root user
 RUN useradd -ms /bin/bash app
-RUN chown -R app:app /home/app 
+#RUN chown -R app:app /home/app 
 USER app
 
 # Setup some paths
@@ -24,9 +24,6 @@ ENV PATH=$PATH:/home/app/.local/bin
 ADD requirements.txt .
 RUN pip3 install -r requirements.txt
 
-# Added this extra line to avoid error when loading 'en_core_web_sm' model via spacy.load()
-RUN python -m spacy download en_core_web_sm 
-
-RUN pip3 install anytree
+#RUN pip3 install anytree
 
 WORKDIR /home/app

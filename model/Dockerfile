@@ -11,7 +11,7 @@ WORKDIR /src
 
 #FROM base as test
 #RUN ["pytest", "-v", "/src/tests"]
-RUN python -m spacy download en_core_web_sm 
+#RUN python -m spacy download en_core_web_sm 
 
 FROM base as build
 ENTRYPOINT ["python3", "/src/ml_service.py"]

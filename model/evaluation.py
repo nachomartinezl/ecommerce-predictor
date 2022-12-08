@@ -7,7 +7,7 @@ from model.utils import decoder
 import os
 
 
-def get_performance(predictions, y_test, labels, model, average, timestamp):
+def get_performance(predictions, y_test, labels, vectorizer, model, average, timestamp):
 
     y_true = decoder(y_test)
     y_pred = decoder(predictions)
@@ -24,6 +24,7 @@ def get_performance(predictions, y_test, labels, model, average, timestamp):
     os.makedirs(os.path.dirname(filename), exist_ok=False)
     with open(filename, "w") as f:
         f.write(str(model.get_params))
+        f.write(str(vectorizer.get_params))
 
     df_id = pd.DataFrame(dict_report_id).T
     df_id.to_csv(f"model/experiments/exp{timestamp}/results.csv")

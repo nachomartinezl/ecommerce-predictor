@@ -5,12 +5,6 @@ import numpy as np
 import redis
 import settings
 from joblib import load
-from text_normalizer import normalize_corpus, stopword_list, tokenizer
-from utils import vectorizer, decode_id
-
-# from tensorflow.keras.applications import ResNet50
-# from tensorflow.keras.applications.resnet50 import decode_predictions, preprocess_input
-# from tensorflow.keras.preprocessing import image
 
 # TODO
 # Connect to Redis and assign to variable `db``
@@ -20,14 +14,13 @@ db = redis.Redis(
 )
 
 # TODO
-# Load your ML model and assign to variable `model`
-# See https://drive.google.com/file/d/1ADuBSE4z2ZVIdn66YDSwxKv-58U7WEOn/view?usp=sharing
-# for more information about how to use this model.
 
 # image_model = ResNet50(include_top=True, weights="imagenet")
-# name_model = load('tfidf.joblib')
-desc_model = load("logreg.joblib")
-vec_model = load("w2v.joblib")
+# name_model = load('tfidf_gbc_names.joblib')
+# desc_model = load("tfidf_gbc_desc.joblib")
+
+name_model = load("logreg.joblib")
+
 
 
 def predict(image_name, name, description):
@@ -68,27 +61,15 @@ def predict(image_name, name, description):
     # class_name = label[0][0][1]
     # pred_probability = float(label[0][0][2])
 
-    normalized_desc = normalize_corpus(
-        [description],
-        html_stripping=True,
-        contraction_expansion=True,
-        accented_char_removal=True,
-        text_lower_case=True,
-        text_stemming=True,
-        text_lemmatization=False,
-        special_char_removal=True,
-        remove_digits=False,
-        stopword_removal=True,
-        stopwords=stopword_list,
-    )
-    tok_desc = [tokenizer.tokenize(doc) for doc in normalized_desc]
-    vec_desc = vectorizer(tok_desc, vec_model)[0].reshape(1, -1)
-    preds_desc = desc_model.predict(vec_desc)
-    label = decode_id(preds_desc[0])
-    class_name = label
-    # pred_probability = 0.9859596812
+    #preds_name = name_model.predict(name)
+    #label_name = preds_name[0]
 
-    return class_name  # , pred_probability
+    #preds_desc = name_model.predict(description)
+    #label_desc = preds_desc[0]
+
+    #classes = label_name, label_desc
+
+    return 'label_name', 'label_desc'
 
 
 def classify_process():
@@ -123,10 +104,7 @@ def classify_process():
             prediction = predict(
                 job_data["image_name"], job_data["name"], job_data["description"]
             )
-            output = {
-                "prediction": prediction,
-                # "score": round(score,4)
-            }
+            output = {"prediction": prediction}
             db.set(job_data["id"], json.dumps(output))
         # Don't forget to sleep for a bit at the end
         time.sleep(settings.SERVER_SLEEP)
