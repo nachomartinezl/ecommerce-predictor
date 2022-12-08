@@ -4,6 +4,7 @@
 
 ```bash
 $ docker build -t finalproject -f docker/Dockerfile .
+$ docker build -t finalproject --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) -f docker/Dockerfile .
 ```
 
 - Docker run:
