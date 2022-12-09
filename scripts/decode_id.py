@@ -1,3 +1,5 @@
+import sys
+sys.path.append("/home/app/src/ecommerce-predictor/")
 import json
 
 # Store json file
