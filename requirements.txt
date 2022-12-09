@@ -12,3 +12,4 @@ flatten-json==0.1.13
 jupyterthemes==0.20.0
 seaborn==0.12.1
 anytree==2.8.0
+hiclass==4.2.7
