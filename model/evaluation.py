@@ -5,10 +5,12 @@ from sklearn import metrics
 from sklearn.preprocessing import label_binarize
 from model.utils import decoder
 import os
+import datetime
 
 
-def get_performance(predictions, y_test, labels, vectorizer, model, average, timestamp):
-
+def get_performance(predictions, y_test, labels, vectorizer, model, average):
+    
+    time_exp = str(datetime.datetime.now())
     y_true = decoder(y_test)
     y_pred = decoder(predictions)
 
@@ -20,17 +22,17 @@ def get_performance(predictions, y_test, labels, vectorizer, model, average, tim
     dict_report = metrics.classification_report(y_true, y_pred, output_dict=True)
     dict_report_id = metrics.classification_report(y_test, predictions, output_dict=True)
 
-    filename = f"model/experiments/exp{timestamp}/model.txt"
+    filename = f"model/experiments/exp{time_exp}/model.txt"
     os.makedirs(os.path.dirname(filename), exist_ok=False)
     with open(filename, "w") as f:
         f.write(str(model.get_params))
         f.write(str(vectorizer.get_params))
 
     df_id = pd.DataFrame(dict_report_id).T
-    df_id.to_csv(f"model/experiments/exp{timestamp}/results.csv")
+    df_id.to_csv(f"model/experiments/exp{time_exp}/results.csv")
 
     df2 = pd.DataFrame(labels)
-    df2.to_csv(f"model/experiments/exp{timestamp}/labels.csv")
+    df2.to_csv(f"model/experiments/exp{time_exp}/labels.csv")
 
     print("Model Performance metrics:")
     print("-" * 30)

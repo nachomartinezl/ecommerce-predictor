@@ -13,7 +13,7 @@ RUN apt-get update && \
 
 # Add a non-root user
 RUN useradd -ms /bin/bash app
-#RUN chown -R app:app /home/app 
+RUN chown -R app:app /home/app 
 USER app
 
 # Setup some paths
@@ -23,7 +23,7 @@ ENV PATH=$PATH:/home/app/.local/bin
 # Install the python packages for this new user
 ADD requirements.txt .
 RUN pip3 install -r requirements.txt
-
+RUN python -m spacy download en_core_web_sm
 #RUN pip3 install anytree
 
 WORKDIR /home/app
