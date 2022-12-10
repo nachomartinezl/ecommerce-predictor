@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+      <!-- site metas -->
+      <title>Racing Boot</title>
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <!-- bootstrap css -->
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <!-- style css -->
+      <link rel="stylesheet" href="css/style.css">
+      <!-- Responsive-->
+      <link rel="stylesheet" href="css/responsive.css">
+      <!-- fevicon -->
+      <link rel="icon" href="images/fevicon.png" type="image/gif" />
+      <!-- Scrollbar Custom CSS -->
+      <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+      <!-- Tweaks for older IEs-->
+      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+      <!-- owl stylesheets --> 
+      <link rel="stylesheet" href="css/owl.carousel.min.css">
+      <link rel="stylesheet" href="css/owl.theme.default.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+	  
+   </head>
+   <!-- body -->
+   <body class="main-layout">
+	    <p>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% endwith %}
+        </p>
+	<!-- header section start -->
+	<div class="header_section header_main">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="logo"><a href="#"><img src="images/logo.png"></a></div>
+				</div>
+				<div class="col-sm-9">
+					<nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                        </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                           <a class="nav-item nav-link" href="index.html">Home</a>
+                           <a class="nav-item nav-link" href="collection.html">Categories</a>
+                           <a class="nav-item nav-link" href="shoes.html">Offers</a>
+                           <a class="nav-item nav-link" href="racing boots.html">Supermarket</a>
+                           <a class="nav-item nav-link" href="contact.html">Sell</a>
+                           <a class="nav-item nav-link last" href="#"><img src="images/search_icon.png"></a>
+                           <a class="nav-item nav-link last" href="contact.html"><img src="images/shop_icon.png"></a>
+                        </div>
+                    </div>
+                    </nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- new collection section start -->
+  <div class="collection_text">What are you selling today?</div>
+   <div class="about_main layout_padding">
+    <div class="collection_section">
+    	<div class="container">
+			{% if filename %}
+            <div>
+                <img src="{{ url_for('app_router.display_image', filename=filename) }}">
+            </div>
+            {% if context['prediction'] %}
+                <div class="row">
+                    <div class="col-25">
+					<h1 class="new_text"><strong>Is one of this categories correct?:</strong></h1>
+					<ul>
+						<li><button type="button" class="block">{{ context['prediction'][0] }}</button></li>
+						<li><button type="button" class="block">{{ context['prediction'][1] }}</button></li>
+						<li><button type="button" class="block">{{ context['prediction'][2] }}</button></li>
+						<li><button type="button" class="block">{{ context['prediction'][3] }}</button></li>
+						<li><button type="button" class="block">{{ context['prediction'][4] }}</button></li>
+					</ul>
+                    </div>
+                </div>
+                <form id="form" method="POST" action="/feedback">
+                    <button type="submit">Report incorrect answer</button><br>
+                    <input name="report" style="visibility: hidden;" value="{'filename': '{{ filename }}', 'prediction': '{{ context['prediction'] }}'}"/>
+                </form>
+            {% endif %}
+        {% endif %}
+			<form method="post" action="/" enctype="multipart/form-data" id="regForm">
+				<div class="tab">
+					<h1 class="new_text"><strong>Choose a title for your product:</strong></h1>
+					<p class="consectetur_text"><input placeholder="Ej: Apple iPhone SE (2nd Generation), 64GB, Red..." oninput="this.className = ''" type="text" name="name" required></p>
+				</div>
+				<div class="tab">
+					<h1 class="new_text"><strong>Write a nice description:</strong></h1>
+					<p class="consectetur_text"><input placeholder="The iPhone SE features a 12MP iSight camera, as well as a 5MP Facetime camera with flash..." oninput="this.className = ''" type="text" name="description" required></p>
+				</div>
+				<div class="tab">
+					<h1 class="new_text"><strong>Now, please upload an image:</strong></h1>
+					<p class="consectetur_text"><input oninput="this.className = ''" type="file" name="file" autocomplete="off" required></p>
+		        </div> 
+				<div style="overflow:visible;">
+					<div style="float:right;">
+					  <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+					  <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+					</div>
+					<div style="text-align:center;margin-top:40px;">
+						<span class="step"></span>
+						<span class="step"></span>
+						<span class="step"></span>
+					</div>
+				</div>
+			</form>	
+		</div>
+    </div>
+    <div class="collectipn_section_3 layout_padding">
+    	<div class="container">
+    		<div class="racing_shoes">
+    			<div class="row">
+    				<div class="col-md-8">
+    					<div class="shoes-img3"><img src="images/shoes-img3.png"></div>
+    				</div>
+    				<div class="col-md-4">
+    					<div class="sale_text"><strong>Sale <br><span style="color: #0a0506;">JOGING</span> <br>SHOES</strong></div>
+    					<div class="number_text"><strong>$ <span style="color: #0a0506">75</span></strong></div>
+    					<button class="seemore">See More</button>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    </div>
+	<!-- new collection section end -->
+	<!-- section footer start -->
+    <div class="section_footer">
+    	<div class="container">
+    		<div class="mail_section">
+    			<div class="row">
+    				<div class="col-sm-6 col-lg-2">
+    					<div><a href="#"><img src="images/footer-logo.png"></a></div>
+    				</div>
+    				<div class="col-sm-6 col-lg-2">
+    					<div class="footer-logo"><img src="images/phone-icon.png"><span class="map_text">(71) 1234567890</span></div>
+    				</div>
+    				<div class="col-sm-6 col-lg-3">
+    					<div class="footer-logo"><img src="images/email-icon.png"><span class="map_text">Demo@gmail.com</span></div>
+    				</div>
+    				<div class="col-sm-6 col-lg-3">
+    					<div class="social_icon">
+    						<ul>
+    							<li><a href="#"><img src="images/fb-icon.png"></a></li>
+    							<li><a href="#"><img src="images/twitter-icon.png"></a></li>
+    							<li><a href="#"><img src="images/in-icon.png"></a></li>
+    							<li><a href="#"><img src="images/google-icon.png"></a></li>
+    						</ul>
+    					</div>
+    				</div>
+    				<div class="col-sm-2"></div>
+    			</div>
+    	    </div> 
+    	    <div class="footer_section_2">
+		        <div class="row">
+    		        <div class="col-sm-4 col-lg-2">
+    		        	<p class="dummy_text"> ipsum dolor sit amet, consectetur ipsum dolor sit amet, consectetur  ipsum dolor sit amet,</p>
+    		        </div>
+    		        <div class="col-sm-4 col-lg-2">
+    		        	<h2 class="shop_text">Address </h2>
+    		        	<div class="image-icon"><img src="images/map-icon.png"><span class="pet_text">No 40 Baria Sreet 15/2 NewYork City, NY, United States.</span></div>
+    		        </div>
+    		        <div class="col-sm-4 col-md-6 col-lg-3">
+    				    <h2 class="shop_text">Our Company </h2>
+    				    <div class="delivery_text">
+    				    	<ul>
+    				    		<li>Delivery</li>
+    				    		<li>Legal Notice</li>
+    				    		<li>About us</li>
+    				    		<li>Secure payment</li>
+    				    		<li>Contact us</li>
+    				    	</ul>
+    				    </div>
+    		        </div>
+    			<div class="col-sm-6 col-lg-3">
+    				<h2 class="adderess_text">Products</h2>
+    				<div class="delivery_text">
+    				    	<ul>
+    				    		<li>Prices drop</li>
+    				    		<li>New products</li>
+    				    		<li>Best sales</li>
+    				    		<li>Contact us</li>
+    				    		<li>Sitemap</li>
+    				    	</ul>
+    				    </div>
+    			</div>
+    			<div class="col-sm-6 col-lg-2">
+    				<h2 class="adderess_text">Newsletter</h2>
+    				<div class="form-group">
+                        <input type="text" class="enter_email" placeholder="Enter Your email" name="Name">
+                    </div>
+                    <button class="subscribr_bt">Subscribe</button>
+    			</div>
+    			</div>
+    	        </div> 
+	        </div>
+    	</div>
+    </div>
+	<!-- section footer end -->
+	<div class="copyright">2022 All Rights Reserved. <a href="https://html.design">Free html  Templates</a></div>
+
+	  
+      <!-- Javascript files -->
+	  <script>
+		var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form ...
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  // ... and fix the Previous/Next buttons:
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("nextBtn").innerHTML = "Submit";
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
+  // ... and run a function that displays the correct step indicator:
+  fixStepIndicator(n)
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+  if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form... :
+  if (currentTab >= x.length) {
+    //...the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("tab");
+  y = x[currentTab].getElementsByTagName("input");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+      // and set the current valid status to false:
+      valid = false;
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+  }
+  return valid; // return the valid status
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class to the current step:
+  x[n].className += " active";
+}
+	  </script>
+
+   </body>
+</html>

@@ -2,3 +2,5 @@
 {'filename': '10b5aea078dd7d00923ec20490195bb0.jpeg', 'prediction': 'Cell Phone Cases & Clips', 'score':  }
 None
 None
+{'filename': '10b5aea078dd7d00923ec20490195bb0.jpeg', 'prediction': '['label_name', 'label_desc']', 'score':  }
+{'filename': '10b5aea078dd7d00923ec20490195bb0.jpeg', 'prediction': '['label_name', 'label_desc']'}
