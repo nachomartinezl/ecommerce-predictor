@@ -71,8 +71,6 @@ def predict(image_name, name, description):
 
     labels = ['Root > Parent > Children > Children', 
               'Root > Parent > Children > Children',
-              'Root > Parent > Children > Children',
-              'Root > Parent > Children > Children',
               'Root > Parent > Children > Children']
 
     return labels
