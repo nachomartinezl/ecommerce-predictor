@@ -19,7 +19,7 @@ db = redis.Redis(
 # name_model = load('tfidf_gbc_names.joblib')
 # desc_model = load("tfidf_gbc_desc.joblib")
 
-name_model = load("logreg.joblib")
+#name_model = load("logreg.joblib")
 
 
 
@@ -69,7 +69,13 @@ def predict(image_name, name, description):
 
     #classes = label_name, label_desc
 
-    return 'label_name', 'label_desc'
+    labels = ['Root > Parent > Children > Children', 
+              'Root > Parent > Children > Children',
+              'Root > Parent > Children > Children',
+              'Root > Parent > Children > Children',
+              'Root > Parent > Children > Children']
+
+    return labels
 
 
 def classify_process():

@@ -28,7 +28,7 @@ def index():
     get and display the predictions.
     """
     if request.method == "GET":
-        return render_template("index.html")
+        return render_template("index2.html")
 
     if request.method == "POST":
         # No file received, show basic UI
@@ -73,7 +73,7 @@ def index():
             }
             # Update `render_template()` parameters as needed
             # TODO
-            return render_template("index.html", filename=filename, context=context)
+            return render_template("index2.html", filename=filename, context=context)
         # File received and but it isn't an image
         else:
             flash("Allowed image types are -> png, jpg, jpeg, gif")
@@ -183,4 +183,4 @@ def feedback():
         if len(data) > 0:
             file_object.write("\n")
         file_object.write(str(report))
-    return render_template("index.html")
+    return render_template("index2.html")
