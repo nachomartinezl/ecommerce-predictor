@@ -11,6 +11,7 @@ mapping_dict = {}
 for dic in products_dicts:
     for cat in dic["category"]:
         mapping_dict[cat["id"]] = cat["name"]
+mapping_dict["other"] = "other"
         
 def decode_id(id_or_path: str or list):
     # Return product name if just one id was passed
@@ -23,5 +24,6 @@ def decode_id(id_or_path: str or list):
         for id in id_or_path:
             if id != "":
                 path.append(mapping_dict[id])
+            else:
+                path.append(id)
         return path
-    
