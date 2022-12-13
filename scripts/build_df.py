@@ -80,7 +80,9 @@ def build_base_dataframe(json_path, preprocessed_csv=None):
             # Add name and description
             new_dict["name"] = dic["name"]
             new_dict["description"] = dic["description"]
-        
+            new_dict["image"] = dic["url"]
+            #add a columns with a concatenation of name and description strings
+            new_dict['nm_and_desc'] = str(dic['name'])+ " " + str(dic["description"])
         # Add category (list of dict) to be used by make_tree()
         new_dict['category'] = dic['category'] 
         

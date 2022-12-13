@@ -2,7 +2,7 @@ from anytree import Node, RenderTree, find_by_attr, find
 
 
 
-def make_tree(df, df_column_cat, root_name):
+def make_tree(df, df_column_cat, root_name, display_tree= True):
   
   """Takes a data frame, a column of such dataframe and a string name
   Using anytree library generate the tree and print it, and return a dictionary 
@@ -27,8 +27,8 @@ def make_tree(df, df_column_cat, root_name):
   # Iteration over index of values at each row
     c = df_column_cat[index]
     for i_cat in range(len(c)):
-      #cat_name = c[i_cat]['id'] 
-      cat_name = c[i_cat]['id'] + ' '+ c[i_cat]['name'] # If you want to display the id along with category names uncomment this line and comment the previous one
+      cat_name = c[i_cat]['id'] 
+      #cat_name = c[i_cat]['id'] + ' '+ c[i_cat]['name'] # If you want to display the id along with category names uncomment this line and comment the previous one
 
       # Verify if the parent category exist if it does not exists appends it to the nodes list and creates the node. Else continues
       if i_cat == 0 and cat_name not in nodes:
@@ -36,14 +36,14 @@ def make_tree(df, df_column_cat, root_name):
 
       # Verify if the subcategory exists if it does not exists appends it to the nodes list and creates the node. Else continues  
       elif i_cat > 0 and cat_name not in nodes:
-        #predecessor = c[i_cat -1]['id'] 
-        predecessor = c[i_cat - 1]['id'] + ' '+ c[i_cat-1]['name'] # If you want to display the id along with category names uncomment this line and comment the previous one
+        predecessor = c[i_cat -1]['id'] 
+        #predecessor = c[i_cat - 1]['id'] + ' '+ c[i_cat-1]['name'] # If you want to display the id along with category names uncomment this line and comment the previous one
         nodes[cat_name] = Node(cat_name, find_by_attr(root,predecessor))
       
       else: continue
-   
-  for pre, _, node in RenderTree(root):
-    print("%s%s" % (pre, node.name))
+  if display_tree: 
+    for pre, _, node in RenderTree(root):
+      print("%s%s" % (pre, node.name))
     
   return nodes
 
@@ -71,7 +71,7 @@ def dist_nodes(node_nm1, node_nm2, cat_tree_dict):
       max_length_list = path_list2
       min_length_list = path_list1
     
-    dist = 1
+    dist = 0
     common_path = []
         
 
