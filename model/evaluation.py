@@ -9,7 +9,7 @@ import datetime
 import anytree
 from scripts import tree_utils
 
-def get_performance(model, pred_labels, true_labels, vectorizer, average, tree):
+def get_performance(model, pred_labels, true_labels, average, tree, vectorizer=None):
     """
     model: model to evaluate 
     pred_labels: predicted labels
@@ -21,6 +21,7 @@ def get_performance(model, pred_labels, true_labels, vectorizer, average, tree):
 
     
     time_exp = str(datetime.datetime.now())
+    true_labels = np.array(true_labels)
     y_true = decoder(true_labels) #antes y_test
     y_pred = decoder(pred_labels) # antes predictions
 
@@ -36,7 +37,8 @@ def get_performance(model, pred_labels, true_labels, vectorizer, average, tree):
     os.makedirs(os.path.dirname(filename), exist_ok=False)
     with open(filename, "w") as f:
         f.write(str(model.get_params))
-        f.write(str(vectorizer.get_params))
+        if vectorizer != None:
+          f.write(str(vectorizer.get_params))
 
     df_id = pd.DataFrame(dict_report_id).T
     df_id.to_csv(f"model/experiments/exp{time_exp}/results.csv")
