@@ -9,7 +9,7 @@ import datetime
 import anytree
 from scripts import tree_utils
 
-def get_performance(model, pred_labels, true_labels, average, tree, vectorizer=None):
+def get_performance(model, pred_labels, true_labels, probs, average, tree, vectorizer=None):
     """
     model: model to evaluate 
     pred_labels: predicted labels
@@ -30,7 +30,7 @@ def get_performance(model, pred_labels, true_labels, average, tree, vectorizer=N
     recall = metrics.recall_score(y_true, y_pred, average=average)
     f1_score = metrics.f1_score(y_true, y_pred, average=average)
     report = metrics.classification_report(y_true, y_pred)
-    dict_report = metrics.classification_report(y_true, y_pred, output_dict=True)
+    top_k_score = metrics.top_k_accuracy_score(y_true, probs, k=5)
     dict_report_id = metrics.classification_report(true_labels, pred_labels, output_dict=True)
 
     filename = f"model/experiments/exp{time_exp}/model.txt"
@@ -60,6 +60,7 @@ def get_performance(model, pred_labels, true_labels, average, tree, vectorizer=N
     print("Recall:", recall)
     print("F1 Score:", f1_score)
     print('Average distance between nodes categories:', avg_dist)
+    print('Top 5 Score:', top_k_score)
     print("\nModel Classification report:")
     print("-" * 30)
     print(report)
