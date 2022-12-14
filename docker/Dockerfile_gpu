@@ -31,4 +31,7 @@ RUN pip3 install -r requirements.txt
 # Added this extra line to avoid error when loading 'en_core_web_sm' model via spacy.load()
 RUN python3 -m spacy download en_core_web_sm 
 
+# Tensorflow (and Keras) with GPU support
+RUN pip3 install tensorflow-gpu==2.8.0
+
 WORKDIR /home/app
