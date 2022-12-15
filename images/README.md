@@ -31,4 +31,8 @@ $ python3 scripts/train.py experiments/exp3/exp3.yml
 Notes: to create the train/test folder for the baseline model use scripts/prepare_train_test2.py
 
 Folders looks like:
+
+
 ![image](https://user-images.githubusercontent.com/107515696/207886116-14b61f03-61b5-4c94-94ae-72fb347ab374.png)
+
+
