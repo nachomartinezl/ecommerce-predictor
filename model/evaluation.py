@@ -63,3 +63,32 @@ def get_performance(model, pred_labels, true_labels, average, tree, vectorizer=N
     print("\nModel Classification report:")
     print("-" * 30)
     print(report)
+
+def store_performance_in_df(pred_labels, true_labels, average, tree, index_name):
+    true_labels = np.array(true_labels)
+    y_true = decoder(true_labels)
+    y_pred = decoder(pred_labels)
+    
+    accuracy = metrics.accuracy_score(y_true, y_pred)
+    precision = metrics.precision_score(y_true, y_pred, average=average)
+    recall = metrics.recall_score(y_true, y_pred, average=average)
+    f1_score = metrics.f1_score(y_true, y_pred, average=average)
+    
+    df2 = pd.DataFrame()
+    df2 = df2.assign(pred_cat= pred_labels,
+                   true_cat= true_labels,
+                   pred_cat_dec = y_pred,
+                   true_cat_dec = y_true)
+    df2['dist'] = df2.apply(lambda row: tree_utils.dist_nodes(row['pred_cat'],row['true_cat'], tree), axis=1)
+    avg_dist = df2['dist'].mean()
+    
+    dict = {
+        "accuracy" : accuracy,
+        "precision" : precision,
+        "recall" : recall,
+        "f1_score" : f1_score,
+        "avg_dist" : avg_dist
+    }
+    
+    df = pd.DataFrame(dict, index=[index_name])
+    return df
