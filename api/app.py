@@ -2,7 +2,9 @@ import settings
 from flask import Flask
 from views import router
 
-app = Flask(__name__)
+app = Flask(__name__,
+static_folder='static',
+static_url_path='')
 app.config["UPLOAD_FOLDER"] = settings.UPLOAD_FOLDER
 app.secret_key = "secret key"
 app.register_blueprint(router)
