@@ -46,18 +46,29 @@ button {
     width: 80px;
     height: 50px;
     background-color: #ff4e5b;
-    color: #ffffff;
     font-size: 16pt;
   }
   
-  button:hover {
-    opacity: 0.8;
-  }
+button:hover {
+opacity: 0.8;
+}
+
+.block {
+    color: black;
+    cursor: pointer;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(223, 217, 217, 0.418);
+    font-size: 16pt;
+    border-color:#000;
+    border: 10px
+}
+
   
-  #prevBtn {
-    background-color: #bbbbbb;
-    width: 100px;
-  }
+#prevBtn {
+background-color: #bbbbbb;
+width: 100px;
+}
 
 * {
     box-sizing: border-box !important;
