@@ -133,3 +133,6 @@ model/experiments
 .vscode
 feedback
 uploads
+data2
+data/glove*
+*.pickle
