@@ -1,0 +1,17 @@
+ model_weights optimizer_weights keras_version
+ model_config training_config layer_names
+ tensorflow
+{"loss": "categorical_crossentropy", "metrics": [[{"class_name": "MeanMetricWrapper", "config": {"name": "accuracy", "dtype": "float32", "fn": "categorical_accuracy"}}]], "weighted_metrics": null, "loss_weights": null, "optimizer_config": {"class_name": "Adam", "config": {"name": "Adam", "learning_rate": 0.0010000000474974513, "decay": 0.0, "beta_1": 0.8999999761581421, "beta_2": 0.9990000128746033, "epsilon": 1e-07, "amsgrad": false}}}
+ efficientnetv2-b0
+ sequential
+ tensorflow
+ dense/bias:0 dense/kernel:0
+ block6d_se_reduce/bias:0 block6d_se_expand/kernel:0 block6d_se_expand/bias:0 block6d_project_conv/kernel:0 block6d_project_bn/gamma:0 block6d_project_bn/beta:0 block6e_expand_conv/kernel:0 block6e_expand_bn/gamma:0 block6e_expand_bn/beta:0 block6e_dwconv2/depthwise_kernel:0 block6e_bn/gamma:0 block6e_bn/beta:0 block6e_se_reduce/kernel:0 block6e_se_reduce/bias:0 block6e_se_expand/kernel:0 block6e_se_expand/bias:0 block6e_project_conv/kernel:0 block6e_project_bn/gamma:0 block6e_project_bn/beta:0 block6f_expand_conv/kernel:0 block6f_expand_bn/gamma:0 block6f_expand_bn/beta:0# block6f_dwconv2/depthwise_kernel:0 block6f_bn/gamma:0 block6f_bn/beta:0 block6f_se_reduce/kernel:0 block6f_se_reduce/bias:0( block6f_se_expand/kernel:0 block6f_se_expand/bias:0* block6f_project_conv/kernel:0 block6f_project_bn/gamma:0 block6f_project_bn/beta:0 block6g_expand_conv/kernel:0 block6g_expand_bn/gamma:0 block6g_expand_bn/beta:00 block6g_dwconv2/depthwise_kernel:0 block6g_bn/gamma:0 block6g_bn/beta:0 block6g_se_reduce/kernel:0 block6g_se_reduce/bias:05 block6g_se_expand/kernel:0 block6g_se_expand/bias:07 block6g_project_conv/kernel:0 block6g_project_bn/gamma:0 block6g_project_bn/beta:0 block6h_expand_conv/kernel:0 block6h_expand_bn/gamma:0 block6h_expand_bn/beta:0= block6h_dwconv2/depthwise_kernel:0 block6h_bn/gamma:0 block6h_bn/beta:0 block6h_se_reduce/kernel:0 block6h_se_reduce/bias:0B block6h_se_expand/kernel:0 block6h_se_expand/bias:0D block6h_project_conv/kernel:0 block6h_project_bn/gamma:0 block6h_project_bn/beta:0 top_conv/kernel:0 top_bn/gamma:0
+ top_bn/beta:0 stem_bn/moving_mean:0 stem_bn/moving_variance:0 block1a_project_bn/moving_mean:0M block1a_project_bn/moving_variance:0 block2a_expand_bn/moving_mean:0 block2a_expand_bn/moving_variance:0 block2a_project_bn/moving_mean:0Q block2a_project_bn/moving_variance:0 block2b_expand_bn/moving_mean:0 block2b_expand_bn/moving_variance:0 block2b_project_bn/moving_mean:0
+ã´ B73Z=8oq)6
+­ +`8AUF8g6#8
+Û½ B6os\7 76ws7
+ 7)d!7?TZ7Hh
+æ 5-bU69\H7 `6h}H7,vB9
+³ Du6fW_6Ø“ f6Zs
+<div id="preview-all"><div class="button" onclick="Eb('W',1)">Show all readable texts in this file...</div></div><div id="preview-all"><div class="button" onclick="Eb('B',1)">Show all bytes of this binary file...</div></div>
