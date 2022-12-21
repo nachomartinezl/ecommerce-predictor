@@ -136,3 +136,4 @@ uploads
 data2
 data/glove*
 *.pickle
+uploads/
