@@ -8,7 +8,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Racing Boot</title>
+      <title>e-commerce Predictor</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -84,40 +84,62 @@
                 <img src="{{ url_for('app_router.display_image', filename=filename) }}">
             </div>
             {% if context['prediction'] %}
-                <div class="row">
-                    <div class="col-25">
-					<h1 class="new_text"><strong>Is one of this categories correct?:</strong></h1>
-					<ul>
-						<li><button type="button" class="block">{{ context['prediction'][0] }}</button></li>
-						<li><button type="button" class="block">{{ context['prediction'][1] }}</button></li>
-						<li><button type="button" class="block">{{ context['prediction'][2] }}</button></li>
-					</ul>
-                    </div>
-                </div>
-                <form id="form" method="POST" action="/feedback">
-                    <button type="submit">Report incorrect answer</button><br>
-                    <input name="report" style="visibility: hidden;" value="{'filename': '{{ filename }}', 'prediction': '{{ context['prediction'] }}'}"/>
-                </form>
+                <div class="row ">
+                    <div class="col ">
+					
+        
+          <form id="form" method="POST" action="/feedback">
+            <h1 class="new_text"><strong>I want to sell </strong></h1>  
+            <label for="{{ context['prediction']['0'] }}"> {{ context['prediction']['0'] }} <input type="radio" id="{{ context['prediction']['0'] }}" name="feedback" value="{{ context['prediction']['0'] }}"> 
+            </label>
+
+					  <label for="{{ context['prediction']['1'] }}"> {{ context['prediction']['1'] }} <input type="radio" id="{{ context['prediction']['1'] }}" name="feedback" value="{{ context['prediction']['1'] }}"> 
+            </label>
+
+            <label for="{{ context['prediction']['2'] }}"> {{ context['prediction']['2'] }} <input type="radio" id="{{ context['prediction']['2'] }}" name="feedback" value="{{ context['prediction']['2'] }}"> 
+            </label>  
+            
+            <label for="{{ context['prediction']['3'] }}"> {{ context['prediction']['3'] }} <input type="radio" id="{{ context['prediction']['3'] }}" name="feedback" value="{{ context['prediction']['3'] }}"> 
+            </label>
+
+            <label for="{{ context['prediction']['4'] }}"> {{ context['prediction']['4'] }} <input type="radio" id="{{ context['prediction']['4'] }}" name="feedback" value="{{ context['prediction']['4'] }}"> 
+            </label>
+            
+            <h1 class="new_text"><strong> Select manually </strong></h1> 
+
+            <label for="none"> None
+             <input type="radio" id="none" name="feedback" value="none">
+            </label>
+
+            <button type="submit">Submit</button><br> 
+            <input name="report" style="visibility: hidden;" value="{{ context['prediction'] }}"/>
+          
+          </form>      
+              </div>
+            </div>
+          </div>  
+        </div>
             {% endif %}
-        {% endif %}
-			<form method="post" action="/" enctype="multipart/form-data" id="regForm">
-				<div class="tab">
-					<h1 class="new_text"><strong>Choose a title for your product:</strong></h1>
-					<p class="consectetur_text"><input placeholder="Ej: Apple iPhone SE (2nd Generation), 64GB, Red..." oninput="this.className = ''" type="text" name="name" required></p>
-				</div>
-				<div class="tab">
-					<h1 class="new_text"><strong>Write a nice description:</strong></h1>
-					<p class="consectetur_text"><input placeholder="The iPhone SE features a 12MP iSight camera, as well as a 5MP Facetime camera with flash..." oninput="this.className = ''" type="text" name="description" required></p>
-				</div>
-				<div class="tab">
-					<h1 class="new_text"><strong>Now, please upload an image:</strong></h1>
-					<p class="consectetur_text"><input oninput="this.className = ''" type="file" name="file" autocomplete="off" required></p>
+            {% else %}
+			    <form method="post" action="/" enctype="multipart/form-data" id="regForm">
+				    <div class="tab">
+					    <h1 class="new_text"><strong>Choose a title for your product:</strong></h1>
+					  <p class="consectetur_text"><input placeholder="Ex: Apple iPhone SE (2nd Generation), 64GB, Red..." oninput="this.className = ''" type="text" name="name" required></p>
+				    </div>
+				    <div><!--/div> class="tab"-->
+					    <h1 class="new_text"><strong>Write a nice description:</strong></h1>
+					    <p class="consectetur_text"><input placeholder="Ex:The iPhone SE features a 12MP iSight camera, as well as a 5MP Facetime camera with flash..." oninput="this.className = ''" type="text" name="description" required></p>
+				    </div>
+				    <div><!--/div> class="tab"-->
+					  <h1 class="new_text"><strong>Now, please upload an image:</strong></h1>
+					  <p class="consectetur_text"><input oninput="this.className = ''" type="file" name="file" autocomplete="off"></p>
 		        </div> 
-				<div style="overflow:visible;">
-					<div style="float:right;">
-					  <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-					  <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-					</div>
+				    <div style="overflow:visible;">
+					    <div style="float:right;">
+					      <!--<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>-->
+					      <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+					    </div>
+              {% endif %}
 					<div style="text-align:center;margin-top:40px;">
 						<span class="step"></span>
 						<span class="step"></span>

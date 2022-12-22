@@ -154,3 +154,20 @@ def normalize_corpus(
         normalized_corpus.append(doc)
         
     return normalized_corpus
+
+
+def normalization(input):
+    output = normalize_corpus(
+        input,
+        html_stripping=True,
+        contraction_expansion=True,
+        accented_char_removal=True,
+        text_lower_case=True,
+        text_stemming=True,
+        text_lemmatization=False,
+        special_char_removal=True,
+        remove_digits=False,
+        stopword_removal=True,
+        stopwords=stopword_list
+    )       
+    return output

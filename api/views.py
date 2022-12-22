@@ -31,30 +31,26 @@ def index():
         return render_template("index2.html")
 
     if request.method == "POST":
-        # No file received, show basic UI
-        if "file" not in request.files:
-            flash("No file part")
-            return redirect(request.url)
-
         # File received but no filename is provided, show basic UI
         file = request.files["file"]
         name = request.form.get("name")
         description = request.form.get("description")
 
-        if file.filename == "":
-            flash("No image selected for uploading")
+        # if file.filename == "":
+        #     flash("No image selected for uploading")
+        #     return redirect(request.url)
+        #       
+        if utils.allowed_name(name) == False:
+            flash("No valid text for product name. Min extension 10 characters")
             return redirect(request.url)
 
-        if name == "":
-            flash("No valid text for product title")
+        if utils.allowed_description(description) == False:
+            flash("No valid text for product name. Min extension 20 max 400")
             return redirect(request.url)
         
-        if description == "":
-            flash("No valid text for product description")
-            return redirect(request.url)
-
-        # File received and it's an image, we must show it and get predictions
-        if file and utils.allowed_file(file.filename) and name and description:
+        if utils.allowed_description(description) and utils.allowed_name(name):
+        # THREE VALID INPUTS
+            if file and utils.allowed_file(file.filename):
             # In order to correctly display the image in the UI and get model
             # predictions you should implement the following:
             #   1. Get an unique file name using utils.get_file_hash() function
@@ -64,20 +60,21 @@ def index():
             #            service using Redis.
             #   4. Update `context` dict with the corresponding values
             # TODO
-            filename = utils.get_file_hash(file)
-            file.save(os.path.join(settings.UPLOAD_FOLDER, filename))
-            prediction = model_predict(filename, name, description)
-            context = {
-                "prediction": prediction,
-                "filename": filename
-            }
-            # Update `render_template()` parameters as needed
-            # TODO
-            return render_template("index2.html", filename=filename, context=context)
+                filename = utils.get_file_hash(file)
+                file.save(os.path.join(settings.UPLOAD_FOLDER, filename))
+                prediction = model_predict(name, description, filename)
+                context = {"prediction": prediction,
+                           "filename": filename
+                          }
+                return render_template("index2.html", filename=filename, context=context)
         # File received and but it isn't an image
-        else:
-            flash("Allowed image types are -> png, jpg, jpeg, gif")
-            return redirect(request.url)
+            else:
+                filename = "no_image"
+                prediction = model_predict(name, description, filename)
+                context = {"prediction": prediction,
+                           "filename": filename
+                          }
+                return render_template("index2.html", filename=filename, context=context)
 
 
 @router.route("/display/<filename>")
@@ -85,14 +82,17 @@ def display_image(filename):
     """
     Display uploaded image in our UI.
     """
-    return redirect(url_for("static", filename="uploads/" + filename), code=301)
+    if filename != "no_image":
+       return redirect(url_for("static", filename="uploads/" + filename), code=301)
+    else:
+        return redirect(url_for("static", filename="images/no_image.jpg"), code=301)
 
-#@router.route("/display/<text>")
-#def display_text(name, description):
-    """
-    Display uploaded text in our UI.
-    """
-    return name, description
+# #@router.route("/display/<text>")
+# #def display_text(name, description):
+#     """
+#     Display uploaded text in our UI.
+#     """
+# # TODO    return name, description
 
 
 @router.route("/predict", methods=["POST"])
@@ -137,13 +137,20 @@ def predict():
     # should return `rpse` dict with default values HTTP 400 Bad Request code
     # TODO
     rpse = {"success": False, "prediction": None, "score": None}
-    if "file" in request.files:
-        file = request.files["file"]
-        name = request.form.get("name")
-        description = request.form.get("description")
-        if file and utils.allowed_file(file.filename) and name and description:
+    
+    name = request.form.get("name")
+    description = request.form.get("description")
+    file = request.files["file"]
+
+    if utils.allowed_description(description) and utils.allowed_name(name):
+
+        if "file" in request.files and utils.allowed_file(file.filename):
             file.save(os.path.join(settings.UPLOAD_FOLDER, file.filename))
-            rpse['prediction'] = model_predict(file.filename, name, description)
+            rpse['prediction'] = model_predict(name, description, file.filename)
+            rpse['success'] = True
+        else:
+            image_name = "no_image"    
+            rpse['prediction'] = model_predict(name, description, image_name)
             rpse['success'] = True
             return jsonify(rpse)
     else:
@@ -173,14 +180,13 @@ def feedback():
           incorrect.
         - "score" model confidence score for the predicted class as float.
     """
-    report = request.form.get("report")
+    context = {"feedback" : request.form.get("feedback")}
+    prediction_raw = request.form.get("report")
+    prediction = json.loads(prediction_raw.replace("\'", "\""))
+    return render_template("feedback.html", context=context, prediction=prediction)
+    #report = request.form.get("report")
     # Store the reported data to a file on the corresponding path
     # already provided in settings.py module
-    # TODO
-    with open(settings.FEEDBACK_FILEPATH, "a+") as file_object:
-        file_object.seek(0)
-        data = file_object.read(100)
-        if len(data) > 0:
-            file_object.write("\n")
-        file_object.write(str(report))
-    return render_template("index2.html")
+   
+
+   

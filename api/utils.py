@@ -17,9 +17,37 @@ def allowed_file(filename):
     bool
         True if the file is an image, False otherwise.
     """
-    # Current implementation will allow any kind of file.
-    # TODO
     return filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif'))
+
+def allowed_name(name):
+    """
+    Checks if the format for the text for the name received is acceptable
+
+    Parameters
+    ----------
+    name : str
+        
+    Returns
+    -------
+    bool
+        True if the string has allowed extension
+    """
+    return len(name) > 10
+
+def allowed_description(description):
+    """
+    Checks if the format for the text for the description received is acceptable
+
+    Parameters
+    ----------
+    name : str
+        
+    Returns
+    -------
+    bool
+        True if the string has allowed extension
+    """
+    return 20 < len(description) < 400
 
 
 def get_file_hash(file):

@@ -3,27 +3,45 @@ import os
 import time
 import numpy as np
 import redis
+import joblib
+import text_normalizer
+import combined_model_class 
 import settings
-from joblib import load
 
 # TODO
 # Connect to Redis and assign to variable `db``
 # Make use of settings.py module to get Redis settings like host, port, etc.
 db = redis.Redis(
-    host=settings.REDIS_IP, port=settings.REDIS_PORT, db=settings.REDIS_DB_ID
-)
+                 host=settings.REDIS_IP, 
+                 port=settings.REDIS_PORT, 
+                 db=settings.REDIS_DB_ID
+                )
 
-# TODO
+# TODO NLP MODELS 
+
+# Vectorize normalized data 
+vect_title_desc = joblib.load('vect_BL1')
+vect_title  = joblib.load('vect_BL0')
+
+# loading pretrained models
+model_title = joblib.load('model_BL0')
+model_title_desc = joblib.load('model_BL1')
+
+
+final_model = combined_model_class.Combined_Model()
+
+
+
+
+
+# TODO IMAGE MODEL
 
 # image_model = ResNet50(include_top=True, weights="imagenet")
-# name_model = load('tfidf_gbc_names.joblib')
-# desc_model = load("tfidf_gbc_desc.joblib")
-
-#name_model = load("logreg.joblib")
 
 
 
-def predict(image_name, name, description):
+
+def predict(name, description, image_name):
     """
     Load image, name from the corresponding folder based on the image name
     received, then, run our ML model to get predictions.
@@ -46,11 +64,20 @@ def predict(image_name, name, description):
 
     Returns
     -------
-    class_name, pred_probability : tuple(str, float)
-        Model predicted classes as strings and the corresponding confidence
-        score as a number.
+    class_name, dict
     """
     # TODO
+
+    name_n = text_normalizer.normalization([name])
+    name_v= vect_title.transform(name_n)
+    
+    name_descr = description + name
+    name_descr_n = text_normalizer.normalization([name_descr])
+    name_descr_v= vect_title_desc.transform(name_descr_n)
+
+    labels = final_model.predict_best_five(X_list=[name_v, name_descr_v], 
+                                           estimators=[model_title, model_title_desc], 
+                                           max_k_feat=5)
 
     # img = image.load_img(os.path.join(settings.UPLOAD_FOLDER, image_name), target_size=(224, 224))
     # x = image.img_to_array(img)
@@ -69,9 +96,11 @@ def predict(image_name, name, description):
 
     #classes = label_name, label_desc
 
-    labels = ['Root > Parent > Children > Children', 
-              'Root > Parent > Children > Children',
-              'Root > Parent > Children > Children']
+    # labels2 = {"0": "Computer Internal Components",
+    #           "1": "SSD Drive",
+    #           "2": "Laptop Computer Replacement Parts",
+    #           "3": "RAM memory",
+    #           "4": "Computer CPU Processors"}
 
     return labels
 
@@ -93,7 +122,7 @@ def classify_process():
         #   2. Run your ML model on the given data
         #   3. Store model prediction in a dict with the following shape:
         #      {
-        #         "prediction": str,
+        #         "prediction": dict,
         #         "score": float,
         #      }
         #   4. Store the results on Redis using the original job ID as the key
@@ -102,17 +131,18 @@ def classify_process():
         # Hint: You should be able to successfully implement the communication
         #       code with Redis making use of functions `brpop()` and `set()`.
         # TODO
-        msg = db.brpop(settings.REDIS_QUEUE)
-        if msg is not None:
-            job_data = json.loads(msg[1])
-            prediction = predict(
-                job_data["image_name"], job_data["name"], job_data["description"]
-            )
-            output = {"prediction": prediction}
-            db.set(job_data["id"], json.dumps(output))
+        queue_name, msg = db.brpop(settings.REDIS_QUEUE)
+        job_data = json.loads(msg)
+        name = job_data['name']
+        description = job_data['description']
+        image_name = job_data["image_name"]
+        job_id = job_data['id']
+        pred_cat= predict(name, description, image_name)
+
+        db.set(job_id, json.dumps(pred_cat))    
+
         # Don't forget to sleep for a bit at the end
         time.sleep(settings.SERVER_SLEEP)
-
 
 if __name__ == "__main__":
     # Now launch process

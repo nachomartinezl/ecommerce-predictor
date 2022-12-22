@@ -1,7 +1,7 @@
 import numpy as np
 import pickle
 
-with open("model/mapping_dict.pkl", "rb") as f:
+with open("mapping_dict.pkl", "rb") as f:
     mapping_dict = pickle.load(f)
 
 mapping_dict['other'] = 'other'

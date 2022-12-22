@@ -13,7 +13,7 @@ db = redis.Redis(
     db = settings.REDIS_DB_ID
 )
 
-def model_predict(image_name, name, description):
+def model_predict(name, description, image_name):
     """
     Receives an image name and queues the job into Redis.
     Will loop until getting the answer from our ML service.
@@ -31,35 +31,24 @@ def model_predict(image_name, name, description):
 
     Returns
     -------
-    prediction, score : tuple(str, float)
+    prediction : dict
         Model predicted class as a string and the corresponding confidence
         score as a number.
     """
-    prediction = None
-    #score = None
-
+  
     # Assign an unique ID for this job and add it to the queue.
     # We need to assing this ID because we must be able to keep track
     # of this particular job across all the services
     # TODO
     job_id = str(uuid4())
 
-    # Create a dict with the job data we will send through Redis having the
-    # following shape:
-    # {
-    #    "id": str,
-    #    "image_name": str,
-    #    "name" : str,
-    #    "description" : str   
-    # }
-    # TODO
     job_data = {
         "id" : job_id,
-        "image_name": image_name,
         "name" : name,
-        "description" : description
+        "description" : description,
+        "image_name": image_name
     }
-
+   
     # Send the job to the model service using Redis
     # Hint: Using Redis `lpush()` function should be enough to accomplish this.
     # TODO
@@ -76,14 +65,8 @@ def model_predict(image_name, name, description):
         output = db.get(job_id)
         if output is not None:
             results = json.loads(output)
-            prediction = results['prediction']
-            
-            # Don't forget to delete the job from Redis after we get the results!
-            # Then exit the loop
-            # TODO
+            prediction = results
             db.delete(job_id)
-
-            # Sleep some time waiting for model results
-            time.sleep(settings.API_SLEEP)
-
             return prediction
+        else:
+            time.sleep(settings.API_SLEEP)
