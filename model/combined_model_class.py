@@ -2,6 +2,12 @@ import numpy as np
 from text_normalizer import normalize_corpus, stopword_list
 import joblib
 from utils import decoder
+import os 
+import yaml
+os.chdir("/src/scripts/")
+from scripts import utils
+
+os.chdir("/src/")
 
 
 class Combined_Model():
@@ -20,20 +26,32 @@ class Combined_Model():
         C : array, shape [n_samples]
             Predicted class label per sample.
         """
-        # only NLP Models 
+        
+        
+
         if len(estimators) == 2:
             y_pred_model_1 = estimators[0].predict_proba(X_list[0])
             y_pred_model_2 = estimators[1].predict_proba(X_list[1])
-            probs = np.array([(prob1 + prob2) * 0.5 for prob1, prob2 in zip(y_pred_model_1, y_pred_model_2)])
+            prob_cat = np.array([(prob1 + prob2) * (1/len(estimators)) for prob1, prob2 in zip(y_pred_model_1, y_pred_model_2)])
         
         # NLP + images    
         elif len(estimators) == 3:
+            CONFIG_YML = "exp4.yml"
+            config = utils.load_config(CONFIG_YML)
+            
             y_pred_model_1 = estimators[0].predict_proba(X_list[0])
             y_pred_model_2 = estimators[1].predict_proba(X_list[1])
-            y_pred_model_3 = estimators[2].predict_proba(X_list[2])
-            probs = np.array([(prob1 + prob2+ prob3) * (1/len(estimators)) for prob1, prob2, prob3 in zip(y_pred_model_1, y_pred_model_2, y_pred_model_3)])
+
+            predictions, labels, probs = utils.predict_from_folder(
+                                            folder= X_list[2], 
+                                            model=estimators[2], 
+                                            input_size=config["data"]["image_size"], 
+                                            class_names=estimators[0].classes_,
+                                            )
+            y_pred_model_3 = probs[0]
+            prob_cat = np.array([(prob1 + prob2+ prob3) * (1/len(estimators)) for prob1, prob2, prob3 in zip(y_pred_model_1, y_pred_model_2, y_pred_model_3)])
         
-        return probs
+        return prob_cat
 
     def predict_best_five(self, X_list, estimators, max_k_feat):
         """
@@ -56,9 +74,9 @@ class Combined_Model():
             
         """
         
-        probs = self.predict_proba(X_list, estimators)
+        cat_prob = self.predict_proba(X_list, estimators)
 
-        cat_prob = probs
+        
         classes = estimators[0].classes_
 
         most_prob_cat_idx = np.argsort(-cat_prob[0])[:max_k_feat]

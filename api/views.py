@@ -61,6 +61,9 @@ def index():
             #   4. Update `context` dict with the corresponding values
             # TODO
                 filename = utils.get_file_hash(file)
+                # Delete previous images 
+                for f in os.listdir(settings.UPLOAD_FOLDER):
+                    os.remove(os.path.join(settings.UPLOAD_FOLDER, f))
                 file.save(os.path.join(settings.UPLOAD_FOLDER, filename))
                 prediction = model_predict(name, description, filename)
                 context = {"prediction": prediction,

@@ -7,7 +7,9 @@ import joblib
 import text_normalizer
 import combined_model_class 
 import settings
-
+from scripts import efficientnet
+import yaml
+os.chdir("/src/")
 # TODO
 # Connect to Redis and assign to variable `db``
 # Make use of settings.py module to get Redis settings like host, port, etc.
@@ -17,7 +19,8 @@ db = redis.Redis(
                  db=settings.REDIS_DB_ID
                 )
 
-# TODO NLP MODELS 
+######### NLP MODELS ######################### 
+
 
 # Vectorize normalized data 
 vect_title_desc = joblib.load('vect_BL1')
@@ -27,18 +30,12 @@ vect_title  = joblib.load('vect_BL0')
 model_title = joblib.load('model_BL0')
 model_title_desc = joblib.load('model_BL1')
 
+######### IMAGE MODEL #######################
 
-final_model = combined_model_class.Combined_Model()
+WEIGHTS = "model.06-2.0593.h5"
+image_model = efficientnet.create_model(weights=WEIGHTS)
 
-
-
-
-
-# TODO IMAGE MODEL
-
-# image_model = ResNet50(include_top=True, weights="imagenet")
-
-
+####### PUTTING THE MODELS TOGETHER #########
 
 
 def predict(name, description, image_name):
@@ -67,6 +64,7 @@ def predict(name, description, image_name):
     class_name, dict
     """
     # TODO
+    final_model = combined_model_class.Combined_Model()
 
     name_n = text_normalizer.normalization([name])
     name_v= vect_title.transform(name_n)
@@ -75,32 +73,15 @@ def predict(name, description, image_name):
     name_descr_n = text_normalizer.normalization([name_descr])
     name_descr_v= vect_title_desc.transform(name_descr_n)
 
-    labels = final_model.predict_best_five(X_list=[name_v, name_descr_v], 
+    if image_name != "no_image":
+        IMAGE = settings.UPLOAD_FOLDER 
+        labels = final_model.predict_best_five(X_list=[name_v, name_descr_v, IMAGE], 
+                                           estimators=[model_title, model_title_desc, image_model], 
+                                           max_k_feat=5)
+    else:
+        labels = final_model.predict_best_five(X_list=[name_v, name_descr_v], 
                                            estimators=[model_title, model_title_desc], 
                                            max_k_feat=5)
-
-    # img = image.load_img(os.path.join(settings.UPLOAD_FOLDER, image_name), target_size=(224, 224))
-    # x = image.img_to_array(img)
-    # x_batch = np.expand_dims(x, axis=0)
-    # x_batch = preprocess_input(x_batch)
-    # preds_1 = image_model.predict(x_batch)
-    # label = decode_predictions(preds, top=1)
-    # class_name = label[0][0][1]
-    # pred_probability = float(label[0][0][2])
-
-    #preds_name = name_model.predict(name)
-    #label_name = preds_name[0]
-
-    #preds_desc = name_model.predict(description)
-    #label_desc = preds_desc[0]
-
-    #classes = label_name, label_desc
-
-    # labels2 = {"0": "Computer Internal Components",
-    #           "1": "SSD Drive",
-    #           "2": "Laptop Computer Replacement Parts",
-    #           "3": "RAM memory",
-    #           "4": "Computer CPU Processors"}
 
     return labels
 
