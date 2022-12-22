@@ -1,5 +1,3 @@
-#from utils.data_aug import create_data_aug_layer
-
 #import os
 #os.chdir("/home/gianniif/ecommerce-predictor/scripts/")
 
@@ -15,7 +13,6 @@ def create_model(
     dropout_rate: float = 0.0,
     data_aug_layer: dict = None,
     classes: int = None,
-     
 ):
     """
     Creates and loads the Resnet50 model we will use for our experiments.
@@ -79,14 +76,13 @@ def create_model(
         # TODO
         input = keras.layers.Input(
             shape = input_shape,
-            dtype = tf.float32  
+            dtype = tf.float32   
         )
 
         # Create the data augmentation layers here and add to the model next
         # to the input layer
         # If no data augmentation was used, skip this
         # TODO
-        
         if data_aug_layer is not None:
             data_augmentation = create_data_aug_layer(data_aug_layer)
             x = data_augmentation(input)
@@ -99,7 +95,7 @@ def create_model(
         # Resnet50 already has a preprocessing function you must use here
         # See keras.applications.resnet50.preprocess_input()
         # TODO
-        #x = keras.applications.efficientnet.preprocess_input(x)
+        x = keras.applications.resnet50.preprocess_input(x)
         
         # Create the corresponding core model using
         # keras.applications.ResNet50()
@@ -108,15 +104,14 @@ def create_model(
         #   2. Drop top layer (imagenet classification layer)
         #   3. Use Global average pooling as model output
         # TODO
-        core_model = keras.applications.EfficientNetV2B0(
+        core_model = keras.applications.resnet50.ResNet50(
             weights=weights,
             include_top=False,
-            #pooling='avg',
-        
+            pooling='avg'
         )
         
         core_model.trainable = False
-        x = core_model(x)
+        x = core_model(x, training=False)
         
         # Add a single dropout layer for regularization, use
         # keras.layers.Dropout()
@@ -127,18 +122,19 @@ def create_model(
         # `classes` parameter
         # Assign it to `outputs` variable
         # TODO
-        outputs = keras.layers.Dense(classes,kernel_regularizer='l2', activation='softmax')(x)
+        outputs = keras.layers.Dense(classes, activation='softmax')(x)
 
         # Now you have all the layers in place, create a new model
         # Use keras.Model()
         # Assign it to `model` variable
         # TODO
-        model = keras.Model(inputs = input, outputs = outputs)
+        model = keras.Model(input, outputs)
     else:
         # For this particular case we want to load our already defined and
         # finetuned model, see how to do this using keras
         # Assign it to `model` variable
         # TODO
-        model = keras.models.load_model(weights)
+        model = keras.models.load_model(str(weights))
+        model.trainable = True
 
     return model
