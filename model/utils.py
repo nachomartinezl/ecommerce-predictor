@@ -4,8 +4,8 @@ import pickle
 with open("mapping_dict.pkl", "rb") as f:
     mapping_dict = pickle.load(f)
 
-mapping_dict['other'] = 'other'
-mapping_dict['Unknown'] = 'Unknown'
+mapping_dict["other"] = "other"
+mapping_dict["Unknown"] = "Unknown"
 
 
 def vectorizer(corpus, model, num_features=100):
@@ -19,7 +19,7 @@ def vectorizer(corpus, model, num_features=100):
             else:
                 word_vector = np.zeros((num_features), dtype="float32")
             doc_vec.append(word_vector)
-        avg_vec = np.add.reduce(doc_vec) / len(doc_vec) 
+        avg_vec = np.add.reduce(doc_vec) / len(doc_vec)
         corpus_vectors.append(avg_vec)
     return corpus_vectors
 
@@ -35,5 +35,6 @@ def decode_id(id_or_path: str or list):
         for id in id_or_path:
             path.append(mapping_dict[id])
         return path
+
 
 decoder = np.vectorize(decode_id)
