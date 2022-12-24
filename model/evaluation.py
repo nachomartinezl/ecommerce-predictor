@@ -4,11 +4,11 @@ import numpy as np
 from sklearn import metrics
 from sklearn.preprocessing import label_binarize
 #from model.utils import decoder
-from model.utils2 import decoder
+from model.utils import decoder
 import os
 import datetime
 import anytree
-from scripts import tree_utils
+from utils import tree_utils
 
 def get_performance(model, pred_labels, true_labels, probs, average, tree, vectorizer=None):
     """

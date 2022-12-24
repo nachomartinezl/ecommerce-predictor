@@ -1,9 +1,9 @@
 import numpy as np
-from utils import decoder
+from utils import decode_id_path
 import os
 import yaml
 
-os.chdir("/src/scripts/")
+#os.chdir("/src/scripts/")
 from scripts import utils
 
 os.chdir("/src/")
@@ -94,6 +94,6 @@ class Combined_Model:
 
         dict_max_feat = {}
         for items in range(len(name_cat_max)):
-            dict_max_feat[str(items)] = np.array_str(decoder(name_cat_max[items]))
+            dict_max_feat[str(items)] = decode_id_path(name_cat_max[items])
 
         return dict_max_feat

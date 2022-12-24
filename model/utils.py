@@ -1,11 +1,15 @@
 import numpy as np
 import pickle
+import os
+#os.chdir('/home/app/src/')
 
 with open("mapping_dict.pkl", "rb") as f:
     mapping_dict = pickle.load(f)
 
 mapping_dict["other"] = "other"
 mapping_dict["Unknown"] = "Unknown"
+
+
 
 
 def vectorizer(corpus, model, num_features=100):
@@ -36,5 +40,13 @@ def decode_id(id_or_path: str or list):
             path.append(mapping_dict[id])
         return path
 
+with open("mapping_id_path_dict.pkl", "rb") as file:
+    mapping_path = pickle.load(file)
+def decode_id_path(cat_id:str):
+    return mapping_path[cat_id]
+
+
 
 decoder = np.vectorize(decode_id)
+
+decoder_path = np.vectorize(decode_id_path)
