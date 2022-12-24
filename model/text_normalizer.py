@@ -6,6 +6,7 @@ import unicodedata
 from contractions import CONTRACTION_MAP
 from nltk.tokenize.toktok import ToktokTokenizer
 from nltk.stem.porter import PorterStemmer
+from sklearn.base import BaseEstimator, TransformerMixin
 
 nltk.download('stopwords')
 tokenizer = ToktokTokenizer()
@@ -156,9 +157,14 @@ def normalize_corpus(
     return normalized_corpus
 
 
-def normalization(input):
-    output = normalize_corpus(
-        input,
+class Normalizer(BaseEstimator, TransformerMixin):
+    
+    def fit(self, X, y=None):
+        return self
+        
+    def transform(self, X, y=None):
+        normalized_desc = normalize_corpus(
+        X,
         html_stripping=True,
         contraction_expansion=True,
         accented_char_removal=True,
@@ -168,6 +174,6 @@ def normalization(input):
         special_char_removal=True,
         remove_digits=False,
         stopword_removal=True,
-        stopwords=stopword_list
-    )       
-    return output
+        stopwords=stopword_list,
+    )
+        return normalized_desc

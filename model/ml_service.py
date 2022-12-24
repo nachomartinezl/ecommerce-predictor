@@ -1,44 +1,34 @@
 import json
 import os
 import time
-import numpy as np
 import redis
-import joblib
-import text_normalizer
-import combined_model_class 
+from joblib import load
+import combined_model_class
 import settings
+from scripts import efficientnet
+import yaml
+from text_normalizer import Normalizer
 
+os.chdir("/src/")
 # TODO
 # Connect to Redis and assign to variable `db``
 # Make use of settings.py module to get Redis settings like host, port, etc.
 db = redis.Redis(
-                 host=settings.REDIS_IP, 
-                 port=settings.REDIS_PORT, 
-                 db=settings.REDIS_DB_ID
-                )
+    host=settings.REDIS_IP, port=settings.REDIS_PORT, db=settings.REDIS_DB_ID
+)
 
-# TODO NLP MODELS 
-
-# Vectorize normalized data 
-vect_title_desc = joblib.load('vect_BL1')
-vect_title  = joblib.load('vect_BL0')
+####### NLP MODELS #######
 
 # loading pretrained models
-model_title = joblib.load('model_BL0')
-model_title_desc = joblib.load('model_BL1')
+model_title = load("name.joblib")
+model_title_desc = load("description.joblib")
 
+####### IMAGE MODEL #######
 
-final_model = combined_model_class.Combined_Model()
+WEIGHTS = "model.06-2.0593.h5"
+image_model = efficientnet.create_model(weights=WEIGHTS)
 
-
-
-
-
-# TODO IMAGE MODEL
-
-# image_model = ResNet50(include_top=True, weights="imagenet")
-
-
+####### PUTTING THE MODELS TOGETHER ########
 
 
 def predict(name, description, image_name):
@@ -67,40 +57,23 @@ def predict(name, description, image_name):
     class_name, dict
     """
     # TODO
+    final_model = combined_model_class.Combined_Model()
 
-    name_n = text_normalizer.normalization([name])
-    name_v= vect_title.transform(name_n)
-    
-    name_descr = description + name
-    name_descr_n = text_normalizer.normalization([name_descr])
-    name_descr_v= vect_title_desc.transform(name_descr_n)
+    name_desc = name + description
 
-    labels = final_model.predict_best_five(X_list=[name_v, name_descr_v], 
-                                           estimators=[model_title, model_title_desc], 
-                                           max_k_feat=5)
-
-    # img = image.load_img(os.path.join(settings.UPLOAD_FOLDER, image_name), target_size=(224, 224))
-    # x = image.img_to_array(img)
-    # x_batch = np.expand_dims(x, axis=0)
-    # x_batch = preprocess_input(x_batch)
-    # preds_1 = image_model.predict(x_batch)
-    # label = decode_predictions(preds, top=1)
-    # class_name = label[0][0][1]
-    # pred_probability = float(label[0][0][2])
-
-    #preds_name = name_model.predict(name)
-    #label_name = preds_name[0]
-
-    #preds_desc = name_model.predict(description)
-    #label_desc = preds_desc[0]
-
-    #classes = label_name, label_desc
-
-    # labels2 = {"0": "Computer Internal Components",
-    #           "1": "SSD Drive",
-    #           "2": "Laptop Computer Replacement Parts",
-    #           "3": "RAM memory",
-    #           "4": "Computer CPU Processors"}
+    if image_name != "no_image":
+        IMAGE = settings.UPLOAD_FOLDER
+        labels = final_model.predict_best_five(
+            X_list=[name, name_desc, IMAGE],
+            estimators=[model_title, model_title_desc, image_model],
+            max_k_feat=5,
+        )
+    else:
+        labels = final_model.predict_best_five(
+            X_list=[name, name_desc],
+            estimators=[model_title, model_title_desc],
+            max_k_feat=5,
+        )
 
     return labels
 
@@ -131,18 +104,19 @@ def classify_process():
         # Hint: You should be able to successfully implement the communication
         #       code with Redis making use of functions `brpop()` and `set()`.
         # TODO
-        queue_name, msg = db.brpop(settings.REDIS_QUEUE)
+        _, msg = db.brpop(settings.REDIS_QUEUE)
         job_data = json.loads(msg)
-        name = job_data['name']
-        description = job_data['description']
+        name = job_data["name"]
+        description = job_data["description"]
         image_name = job_data["image_name"]
-        job_id = job_data['id']
-        pred_cat= predict(name, description, image_name)
+        job_id = job_data["id"]
+        pred_cat = predict(name, description, image_name)
 
-        db.set(job_id, json.dumps(pred_cat))    
+        db.set(job_id, json.dumps(pred_cat))
 
         # Don't forget to sleep for a bit at the end
         time.sleep(settings.SERVER_SLEEP)
+
 
 if __name__ == "__main__":
     # Now launch process
