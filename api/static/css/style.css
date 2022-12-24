@@ -980,6 +980,11 @@ a:hover {
     color:#fff
 }
 
+.label_button label:hover ~label{
+    background-color: #ff4e5b;
+    color:#fff
+}
+
 .label_button input[type="radio"]:checked + label{
     background-color: #ff4e5b;
     color: #fff;
