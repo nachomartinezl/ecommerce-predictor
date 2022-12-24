@@ -960,3 +960,37 @@ a:hover {
     height: auto;
     background: #0c0116;
 }
+
+.label_button{
+    margin:0;
+}
+
+.label_button label{
+    display: inline-block;
+    background-color: #fff;
+    color: #333;
+    border: 2px solid #333;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.label_button label:hover{
+    background-color: #ff4e5b;
+    color:#fff
+}
+
+.label_button input[type="radio"]:checked + label{
+    background-color: #ff4e5b;
+    color: #fff;
+  }
+
+.label_button input[type="radio"] {
+    visibility: hidden;
+    margin:0;
+  }
+
+.label_button_container {
+    display: flex;
+    justify-content: flex-start;
+  }
