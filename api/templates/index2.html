@@ -84,41 +84,27 @@
                 <img src="{{ url_for('app_router.display_image', filename=filename) }}">
             </div>
             {% if context['prediction'] %}
-                <div class="row ">
-                    <div class="col ">
-					
-        
-          <form id="form" method="POST" action="/feedback">
-            <h1 class="new_text"><strong>I want to sell </strong></h1>  
-            <label for="{{ context['prediction']['0'] }}"> {{ context['prediction']['0'] }} <input type="radio" id="{{ context['prediction']['0'] }}" name="feedback" value="{{ context['prediction']['0'] }}"> 
-            </label>
 
-					  <label for="{{ context['prediction']['1'] }}"> {{ context['prediction']['1'] }} <input type="radio" id="{{ context['prediction']['1'] }}" name="feedback" value="{{ context['prediction']['1'] }}"> 
-            </label>
-
-            <label for="{{ context['prediction']['2'] }}"> {{ context['prediction']['2'] }} <input type="radio" id="{{ context['prediction']['2'] }}" name="feedback" value="{{ context['prediction']['2'] }}"> 
-            </label>  
-            
-            <label for="{{ context['prediction']['3'] }}"> {{ context['prediction']['3'] }} <input type="radio" id="{{ context['prediction']['3'] }}" name="feedback" value="{{ context['prediction']['3'] }}"> 
-            </label>
-
-            <label for="{{ context['prediction']['4'] }}"> {{ context['prediction']['4'] }} <input type="radio" id="{{ context['prediction']['4'] }}" name="feedback" value="{{ context['prediction']['4'] }}"> 
-            </label>
-            
-            <h1 class="new_text"><strong> Select manually </strong></h1> 
-
-            <label for="none"> None
-             <input type="radio" id="none" name="feedback" value="none">
-            </label>
-
-            <button type="submit">Submit</button><br> 
-            <input name="report" style="visibility: hidden;" value="{{ context['prediction'] }}"/>
-          
-          </form>      
-              </div>
+            <div class="row ">
+                    <h1 class="new_text"><strong>I want to sell </strong></h1>
+                    <form id="form" method="POST" action="/feedback">
+                        <meta id= "m111" content="{{ context['prediction']}}">
+                        <div class="label_button_container" id="button-container0"></div>
+                        <div class="label_button_container" id="button-container1"></div>
+                        <div class="label_button_container" id="button-container2"></div>
+                        <div class="label_button_container" id="button-container3"></div>
+                        <div class="label_button_container" id="button-container4"></div>
+                        <br>
+                        <br>
+                        <button type="submit">Submit</button><br> 
+                        <input name="report" style="visibility: hidden;" value="{{ context['prediction'] }}"/>
+                    </form>
+                </div>
             </div>
-          </div>  
-        </div>
+
+
+        </div>  
+    </div>
             {% endif %}
             {% else %}
 			    <form method="post" action="/" enctype="multipart/form-data" id="regForm">
@@ -319,5 +305,44 @@ function fixStepIndicator(n) {
 }
 	  </script>
 
+    
+    <script>
+        // Define the list of strings
+        const strings = document.getElementById('m111').content.split(",");
+        // const strings = ["Furniture", "Sofa", "Green Sofas"]
+
+        for (let i = 0; i < 5; i++){
+            // Get a reference to the button container element
+            const container = document.getElementById('button-container' + i);
+            
+            // Loop through the strings and create a radio button for each one
+            for (let j = 0; j < strings.length; j++){
+                const inner_container = document.createElement('div');
+                inner_container.classList.add("label_button");
+                container.appendChild(inner_container);
+                // Create the radio button
+                const radioButton = document.createElement('input');
+                radioButton.type = 'radio';
+                radioButton.id = strings[j];
+                radioButton.name = 'feedback';
+                radioButton.value = strings[j];
+            
+                // Create the label for the radio button
+                const label = document.createElement('label');
+                label.for = strings[j];
+                label.innerHTML = strings[j];
+                label.addEventListener("click", () => {
+                    radioButton.click()
+                })
+            
+                // Append the radio button and label to the container element
+                inner_container.appendChild(radioButton);
+                inner_container.appendChild(label);
+            }
+        }
+        
+    </script>
+
    </body>
 </html>
+
