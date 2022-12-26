@@ -2,17 +2,10 @@ import numpy as np
 import pickle
 
 
-try:
-  with open("mapping_dict.pkl", "rb") as f:
-      mapping_dict = pickle.load(f)
-      mapping_dict["other"] = "other"
-      mapping_dict["Unknown"] = "Unknown"
-
-except FileNotFoundError:
-    with open("model/mapping_dict.pkl", "rb") as f:
-      mapping_dict = pickle.load(f)
-      mapping_dict["other"] = "other"
-      mapping_dict["Unknown"] = "Unknown"
+with open("model/mapping_dict.pkl", "rb") as f:
+    mapping_dict = pickle.load(f)
+    mapping_dict["other"] = "other"
+    mapping_dict["Unknown"] = "Unknown"
 
 
   
@@ -45,13 +38,7 @@ def decode_id(id_or_path: str or list):
         return path
 
 
-try:
-  with open("mapping_id_path_dict.pkl", "rb") as file:
-      mapping_path = pickle.load(file)
-    
-
-except FileNotFoundError:
-    with open("model/mapping_id_path_dict.pkl", "rb") as file:
+with open("model/mapping_id_path_dict.pkl", "rb") as file:
       mapping_path = pickle.load(file)
       
 

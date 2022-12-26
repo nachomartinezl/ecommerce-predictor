@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import metrics
 from sklearn.preprocessing import label_binarize
-#from model.utils import decoder
-from model.utils import decoder
+from utils.decoder import decoder
 import os
 import datetime
 import anytree
@@ -24,7 +23,7 @@ def get_performance(model, pred_labels, true_labels, probs, average, tree, vecto
     
     time_exp = str(datetime.datetime.now())
     #true_labels = np.array(true_labels)
-    y_true = decoder(true_labels) #antes y_test
+    y_true = decoder(true_labels) #antes y_testexit
     y_pred = decoder(pred_labels) # antes predictions
 
     accuracy = metrics.accuracy_score(y_true, y_pred)
