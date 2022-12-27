@@ -34,4 +34,7 @@ RUN python3 -m spacy download en_core_web_sm
 # Tensorflow (and Keras) with GPU support
 RUN pip3 install tensorflow-gpu==2.8.0
 
+#add cv
+RUN pip3 install opencv-python
+
 WORKDIR /home/app

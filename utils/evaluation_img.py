@@ -5,12 +5,12 @@ from sklearn import metrics
 from sklearn.preprocessing import label_binarize
 import os
 os.chdir("/home/app/src/")
-from model.utils import decoder
+from utils.decoder import decoder
 import os
 import datetime
 import tensorflow as tf
 
-from scripts import tree_utils
+from utils import tree_utils
 
 def get_performance(model, pred_labels, true_labels, average, tree, probs ,vectorizer=None):
     """
