@@ -6,6 +6,7 @@ with open("model/mapping_dict.pkl", "rb") as f:
     mapping_dict = pickle.load(f)
     mapping_dict["other"] = "other"
     mapping_dict["Unknown"] = "Unknown"
+    mapping_dict["Categories"] = "All categories"
 
 
   
