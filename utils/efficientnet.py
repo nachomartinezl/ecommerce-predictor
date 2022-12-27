@@ -1,9 +1,4 @@
-#from utils.data_aug import create_data_aug_layer
-
-#import os
-#os.chdir("/home/gianniif/ecommerce-predictor/scripts/")
-
-from data_aug import create_data_aug_layer
+from utils.data_aug import create_data_aug_layer
 import tensorflow as tf
 
 from tensorflow import keras

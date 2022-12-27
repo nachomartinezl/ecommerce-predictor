@@ -14,3 +14,4 @@ seaborn==0.12.1
 anytree==2.8.0
 hiclass==4.2.7
 protobuf==3.20.*
+tensorflow==2.8.0

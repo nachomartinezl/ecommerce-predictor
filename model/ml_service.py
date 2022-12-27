@@ -2,12 +2,12 @@ import json
 import os
 import time
 import redis
-from joblib import load
+import joblib
 import combined_model_class
 import settings
 from scripts import efficientnet
 import yaml
-from text_normalizer import Normalizer
+from text_normalizer import normalize_corpus
 
 os.chdir("/src/")
 # TODO
@@ -17,11 +17,17 @@ db = redis.Redis(
     host=settings.REDIS_IP, port=settings.REDIS_PORT, db=settings.REDIS_DB_ID
 )
 
-####### NLP MODELS #######
+####### VECTORIZERS #######
+vect_title_desc = joblib.load('vect_BL1')
+vect_title  = joblib.load('vect_BL0')
 
 # loading pretrained models
-model_title = load("name.joblib")
-model_title_desc = load("description.joblib")
+
+
+####### NLP MODELS #######
+
+model_title = joblib.load('model_BL0')
+model_title_desc = joblib.load('model_BL1')
 
 ####### IMAGE MODEL #######
 
@@ -58,19 +64,24 @@ def predict(name, description, image_name):
     """
     # TODO
     final_model = combined_model_class.Combined_Model()
+    
+    name_desc = name + " " + description
+    name_n = normalize_corpus([name])
+    name_desc_n = normalize_corpus([name_desc])
 
-    name_desc = name + description
+    name_v = vect_title.transform(name_n)
+    name_desc_v = vect_title_desc.transform(name_desc_n)
 
     if image_name != "no_image":
         IMAGE = settings.UPLOAD_FOLDER
         labels = final_model.predict_best_five(
-            X_list=[name, name_desc, IMAGE],
+            X_list=[name_v, name_desc_v, IMAGE],
             estimators=[model_title, model_title_desc, image_model],
             max_k_feat=5,
         )
     else:
         labels = final_model.predict_best_five(
-            X_list=[name, name_desc],
+            X_list=[name_v, name_desc_v],
             estimators=[model_title, model_title_desc],
             max_k_feat=5,
         )
