@@ -74,13 +74,13 @@ def predict(name, description, image_name):
 
     if image_name != "no_image":
         IMAGE = settings.UPLOAD_FOLDER
-        labels = final_model.predict_best_five_wo(
+        labels = final_model.predict_best_five(
             X_list=[name_v, name_desc_v, IMAGE],
             estimators=[model_title, model_title_desc, image_model],
             max_k_feat=5,
         )
     else:
-        labels = final_model.predict_best_five_wo(
+        labels = final_model.predict_best_five(
             X_list=[name_v, name_desc_v],
             estimators=[model_title, model_title_desc],
             max_k_feat=5,
