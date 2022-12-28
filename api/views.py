@@ -41,11 +41,11 @@ def index():
         #     return redirect(request.url)
         #       
         if utils.allowed_name(name) == False:
-            flash("No valid text for product name. Min extension 10 characters")
+            flash("No valid text for product title. Min. extension 10 characters.")
             return redirect(request.url)
 
         if utils.allowed_description(description) == False:
-            flash("No valid text for product name. Min extension 20 max 400")
+            flash("No valid text for product description. Min. extension 20, max. 400")
             return redirect(request.url)
         
         if utils.allowed_description(description) and utils.allowed_name(name):
@@ -69,7 +69,7 @@ def index():
                 context = {"prediction": prediction,
                            "filename": filename
                           }
-                return render_template("index2.html", filename=filename, context=context)
+                return render_template("index2.html", filename=filename, context=context, name=name, description=description)
         # File received and but it isn't an image
             else:
                 filename = "no_image"
@@ -77,8 +77,7 @@ def index():
                 context = {"prediction": prediction,
                            "filename": filename
                           }
-                return render_template("index2.html", filename=filename, context=context)
-
+                return render_template("index2.html", filename=filename, context=context, name=name, description=description)            
 
 @router.route("/display/<filename>")
 def display_image(filename):
@@ -89,13 +88,6 @@ def display_image(filename):
        return redirect(url_for("static", filename="uploads/" + filename), code=301)
     else:
         return redirect(url_for("static", filename="images/no_image.jpg"), code=301)
-
-# #@router.route("/display/<text>")
-# #def display_text(name, description):
-#     """
-#     Display uploaded text in our UI.
-#     """
-# # TODO    return name, description
 
 
 @router.route("/predict", methods=["POST"])

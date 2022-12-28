@@ -8,7 +8,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>e-commerce Predictor</title>
+      <title>E-commerce Predictor</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -35,23 +35,12 @@
    </head>
    <!-- body -->
    <body class="main-layout">
-	    <p>
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-            {% endwith %}
-        </p>
 	<!-- header section start -->
 	<div class="header_section header_main">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-3">
-					<div class="logo"><a href="#"><img src="images/logo.png"></a></div>
+					<div class="logo"><a href="#"><img src="images/top-k-price.png"></a></div>
 				</div>
 				<div class="col-sm-9">
 					<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -60,13 +49,13 @@
                         </button>
                     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div class="navbar-nav">
-                           <a class="nav-item nav-link" href="">Home</a>
-                           <a class="nav-item nav-link" href="">Categories</a>
-                           <a class="nav-item nav-link" href="">Offers</a>
-                           <a class="nav-item nav-link" href="">Supermarket</a>
-                           <a class="nav-item nav-link" href="">Sell</a>
+                           <a class="nav-item nav-link" href="#">Home</a>
+                           <a class="nav-item nav-link" href="#">Categories</a>
+                           <a class="nav-item nav-link" href="#">Offers</a>
+                           <a class="nav-item nav-link" href="#">Supermarket</a>
+                           <a class="nav-item nav-link" href="#">Sell</a>
                            <a class="nav-item nav-link last" href="#"><img src="images/search_icon.png"></a>
-                           <a class="nav-item nav-link last" href=""><img src="images/shop_icon.png"></a>
+                           <a class="nav-item nav-link last" href="#"><img src="images/shop_icon.png"></a>
                         </div>
                     </div>
                     </nav>
@@ -79,14 +68,25 @@
    <div class="about_main layout_padding">
     <div class="collection_section">
     	<div class="container">
+        <p>
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              <ul>
+              {% for message in messages %}
+              <li class="warning">{{ message }}</li>
+              {% endfor %}
+              </ul>
+          {% endif %}
+          {% endwith %}
+        </p>
 			{% if filename %}
             <div>
+              <p class="name">{{ name }}</p>
+              <p class="description">{{ description }}</p>
                 <img src="{{ url_for('app_router.display_image', filename=filename) }}">
             </div>
-            {% if context['prediction'] %}
-
-            <div class="row ">
-                    <h1 class="new_text"><strong>I want to sell </strong></h1>
+            <div class="row">
+                    <h1 class="new_text"><strong>I want to sell: </strong></h1>
                     <form id="form" method="POST" action="/feedback">
                         <meta id= "prediction_0" content="{{ context['prediction']['0']}}">
                         <meta id= "prediction_1" content="{{ context['prediction']['1']}}">
@@ -103,13 +103,12 @@
                         <button type="submit">Submit</button><br> 
                         <input name="report" style="visibility: hidden;" value="{{ context['prediction'] }}"/>
                     </form>
-                </div>
-            </div>
+              </div>
+          </div>
 
 
         </div>  
     </div>
-            {% endif %}
             {% else %}
 			    <form method="post" action="/" enctype="multipart/form-data" id="regForm">
 				    <div class="tab">
@@ -121,7 +120,7 @@
 					    <p class="consectetur_text"><input placeholder="Ex:The iPhone SE features a 12MP iSight camera, as well as a 5MP Facetime camera with flash..." oninput="this.className = ''" type="text" name="description" required></p>
 				    </div>
 				    <div><!--/div> class="tab"-->
-					  <h1 class="new_text"><strong>Now, please upload an image:</strong></h1>
+					  <h1 class="new_text"><strong>Upload an image:</strong></h1>
 					  <p class="consectetur_text"><input oninput="this.className = ''" type="file" name="file" autocomplete="off"></p>
 		        </div> 
 				    <div style="overflow:visible;">
@@ -169,7 +168,7 @@
     					<div class="footer-logo"><img src="images/phone-icon.png"><span class="map_text">(71)1234567890</span></div>
     				</div>
     				<div class="col-sm-6 col-lg-3">
-    					<div class="footer-logo"><img src="images/email-icon.png"><span class="map_text">demo@gmail.com</span></div>
+    					<div class="footer-logo"><img src="images/email-icon.png"><span class="map_text">demo@anyoneai.com</span></div>
     				</div>
     				<div class="col-sm-6 col-lg-3">
     					<div class="social_icon">
@@ -230,7 +229,7 @@
     	</div>
     </div>
 	<!-- section footer end -->
-	<div class="copyright">2022 All Rights Reserved. <a href="https://anyoneai.com">E-commerce predictor</a></div>
+	<div class="copyright">2022 All Rights Reserved.<a href="#"> E-commerce predictor</a></div>
 
 	  
       <!-- Javascript files -->
@@ -257,11 +256,13 @@ function showTab(n) {
   fixStepIndicator(n)
 }
 
+
 function nextPrev(n) {
   // This function will figure out which tab to display
   var x = document.getElementsByClassName("tab");
   // Exit the function if any field in the current tab is invalid:
   if (n == 1 && !validateForm()) return false;
+  /*
   // Hide the current tab:
   x[currentTab].style.display = "none";
   // Increase or decrease the current tab by 1:
@@ -274,6 +275,9 @@ function nextPrev(n) {
   }
   // Otherwise, display the correct tab:
   showTab(currentTab);
+  */
+  document.getElementById("regForm").submit();
+    return false;
 }
 
 function validateForm() {
@@ -307,10 +311,9 @@ function fixStepIndicator(n) {
   //... and adds the "active" class to the current step:
   x[n].className += " active";
 }
-	  </script>
+</script>
 
-    
-    <script>
+<script>
         // Define the list of strings
         // var p0 = document.getElementById('prediction_0').content
         // var p1 = document.getElementById('prediction_1').content
