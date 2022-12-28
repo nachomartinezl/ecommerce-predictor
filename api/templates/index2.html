@@ -93,6 +93,7 @@
                         <meta id= "prediction_2" content="{{ context['prediction']['2']}}">
                         <meta id= "prediction_3" content="{{ context['prediction']['3']}}">
                         <meta id= "prediction_4" content="{{ context['prediction']['4']}}">
+                        <meta id= "prediction_5" content="{{ context['prediction']['5']}}">
                         <div class="label_button_container" id="button-container0"></div>
                         <div class="label_button_container" id="button-container1"></div>
                         <div class="label_button_container" id="button-container2"></div>
@@ -311,24 +312,23 @@ function fixStepIndicator(n) {
 
     
     <script>
-        // Define the list of strings
-        // var p0 = document.getElementById('prediction_0').content
-        // var p1 = document.getElementById('prediction_1').content
-        // var p2 = document.getElementById('prediction_2').content
-        // var p3 = document.getElementById('prediction_3').content
-        // var p4 = document.getElementById('prediction_4').content
-
-        
         var p0 = document.getElementById('prediction_0').content.replace('[', '').replace(']', '').replaceAll("'", "").split(",")
         var p1 = document.getElementById('prediction_1').content.replace('[', '').replace(']', '').replaceAll("'", "").split(",")
         var p2 = document.getElementById('prediction_2').content.replace('[', '').replace(']', '').replaceAll("'", "").split(",")
         var p3 = document.getElementById('prediction_3').content.replace('[', '').replace(']', '').replaceAll("'", "").split(",")
         var p4 = document.getElementById('prediction_4').content.replace('[', '').replace(']', '').replaceAll("'", "").split(",")
+        var p5 = document.getElementById('prediction_5').content.replace('[', '').replace(']', '').replaceAll("'", "").split(",")
 
-        var predictions = [p0, p1, p2, p3, p4]
-        
-        console.log(predictions)
-        console.log(predictions[0])
+        var first_predictions = [p0, p1, p2, p3, p4, p5]
+        var predictions = first_predictions.filter(function(value) {
+            return value != "other";
+        });
+
+        if (predictions.length > 5) {
+            numbers.pop();
+            }
+
+        console.log(first_predictions)
 
         for (let i = 0; i < 5; i++){
             // Get a reference to the button container element

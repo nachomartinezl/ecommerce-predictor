@@ -16,7 +16,10 @@ Meanwhile textual data input - the name of the product and its description - is 
 ## 4. Modelling
 ### 4.1. NLP Models
 ### 4.2. Computer Vision Model
-### 4.3. Ensembled Model 
+### 4.3. Ensembled Model
+Base models to ensemble NLP name and NLP name + descriptions and image model
+**Notebook ensembled model I**  - Here we explore different combinations of models based on different weights. Here we saved the different models 
+**Notebook ensembled model II** ensembled model selected in the previous notebook and that will be backed our API. 
 
 ## 5. Model Evaluation
 
