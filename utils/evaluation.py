@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import metrics
 from sklearn.preprocessing import label_binarize
-from utils.decoder import decoder
+from utils.decoder import decoder, decode_id
 import os
 import datetime
 import anytree

@@ -47,8 +47,8 @@ def decode_id_path(cat_id:str):
     return mapping_path[cat_id]
 
 
-def decoder(x):
-  return np.vectorize(decode_id(x))
+decoder = np.vectorize(decode_id)
 
-def decoder_path(x):
-  return np.vectorize(decode_id_path(x))
+decoder_path = np.vectorize(decode_id_path)
+
+
