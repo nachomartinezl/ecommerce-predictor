@@ -56,9 +56,8 @@ input.invalid {
     font-weight: 400;
 }
 
-/* Hide all steps by default: */
-.tab {
-    display: none;
+div:empty {
+    display:none;
 }
 
 button {
@@ -838,6 +837,10 @@ a:hover {
     color: #fff;
 }
 
+.no_category:hover{
+    color: red;
+}
+
 .shop_banner {
     width: 100%;
     float: left;
@@ -989,6 +992,7 @@ a:hover {
     width: 100%;
     float: left;
     padding-bottom: 10px;
+    margin:0;
 }
 
 .header_main {
