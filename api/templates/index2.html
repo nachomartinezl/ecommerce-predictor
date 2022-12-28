@@ -80,34 +80,38 @@
           {% endwith %}
         </p>
 			{% if filename %}
-            <div>
-              <p class="name">{{ name }}</p>
-              <p class="description">{{ description }}</p>
-                <img src="{{ url_for('app_router.display_image', filename=filename) }}">
-            </div>
             <div class="row">
-                    <h1 class="new_text"><strong>I want to sell: </strong></h1>
-                    <form id="form" method="POST" action="/feedback">
-                        <meta id= "prediction_0" content="{{ context['prediction']['0']}}">
-                        <meta id= "prediction_1" content="{{ context['prediction']['1']}}">
-                        <meta id= "prediction_2" content="{{ context['prediction']['2']}}">
-                        <meta id= "prediction_3" content="{{ context['prediction']['3']}}">
-                        <meta id= "prediction_4" content="{{ context['prediction']['4']}}">
-                        <div class="label_button_container" id="button-container0"></div>
-                        <div class="label_button_container" id="button-container1"></div>
-                        <div class="label_button_container" id="button-container2"></div>
-                        <div class="label_button_container" id="button-container3"></div>
-                        <div class="label_button_container" id="button-container4"></div>
-                        <br>
-                        <br>
-                        <button type="submit">Submit</button><br> 
-                        <input name="report" style="visibility: hidden;" value="{{ context['prediction'] }}"/>
-                    </form>
+              <div class="col-md-2">
+              <img class="img_main" src="{{ url_for('app_router.display_image', filename=filename) }}">
               </div>
+              <div class="col-md-8">
+              <p class="name">{{ name }}</p>
+              <br>
+              <p class="description">{{ description }}</p>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <h1 class="new_text"><strong>I want to sell: </strong></h1>
+              <form id="form" method="POST" action="/feedback">
+                  <meta id= "prediction_0" content="{{ context['prediction']['0']}}">
+                  <meta id= "prediction_1" content="{{ context['prediction']['1']}}">
+                  <meta id= "prediction_2" content="{{ context['prediction']['2']}}">
+                  <meta id= "prediction_3" content="{{ context['prediction']['3']}}">
+                  <meta id= "prediction_4" content="{{ context['prediction']['4']}}">
+                  <div class="label_button_container" id="button-container0"></div>
+                  <div class="label_button_container" id="button-container1"></div>
+                  <div class="label_button_container" id="button-container2"></div>
+                  <div class="label_button_container" id="button-container3"></div>
+                  <div class="label_button_container" id="button-container4"></div>
+                  <br>
+                  <br>
+                  <button type="submit">Submit</button><br> 
+                  <input name="report" style="visibility: hidden;" value="{{ context['prediction'] }}"/>
+              </form>
+            </div>
           </div>
-
-
-        </div>  
+      </div>  
     </div>
             {% else %}
 			    <form method="post" action="/" enctype="multipart/form-data" id="regForm">
@@ -138,7 +142,7 @@
 			</form>	
 		</div>
     </div>
-    <div class="collectipn_section_3 layout_padding">
+    <div class="collection_section_3 layout_padding">
     	<div class="container">
     		<div class="racing_shoes">
     			<div class="row">

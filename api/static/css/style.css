@@ -45,6 +45,7 @@ input.invalid {
     font-size: 20pt;
     color: #0c0116;
     font-weight: 400;
+    
 }
 
 .description {
@@ -225,6 +226,11 @@ img {
     height: auto;
 }
 
+.img_main {
+    max-width: 250px;
+    height: auto;
+}
+
 :focus {
     outline: 0;
 }
@@ -281,8 +287,8 @@ button {
 }
 
 .layout_padding {
-    padding-top: 90px;
-    padding-bottom: 90px;
+    padding-top: 45px;
+    padding-bottom: 45px;
 }
 
 .header_section {
@@ -627,7 +633,7 @@ body {
     margin-bottom: 90px;
 }
 
-.collectipn_section_3 {
+.collection_section_3 {
     width: 100%;
     float: left;
     padding-top: 0px;
@@ -982,7 +988,7 @@ a:hover {
 .about_main {
     width: 100%;
     float: left;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
 }
 
 .header_main {
