@@ -12,10 +12,32 @@ Meanwhile textual data input - the name of the product and its description - is 
 ## 3. Preprocessing and Feature Extraction 
 ### 3.1. Text Data
 ### 3.1. Image Data
+To Download the Images we can excute
+
+```bash
+$ python3 scripts/Download_data.py
+```
+We analyze the content of the URL  that corresponds to the images in the notebook **Images_analysis** that is inside the EDA folder. 
 
 ## 4. Modelling
 ### 4.1. NLP Models
 ### 4.2. Computer Vision Model
+For the **baseline_model** that can be found in the followings folders: model_training/CV_models we use the data in data/data_baseline that we can obtain runing the following commands
+```bash
+$ python3 scripts/prepare_train_test_baseline.py data_img data/prod_dataset_labels.csv data_splitted
+```
+For the next model we used an EfficientNet model pretrained with ImageNet to have the data in the folders we need we have to execute:
+```bash
+$ python3 scripts/prepare_train_test_dataset.py data_img data/prod_dataset_labels.csv data_splitted
+```
+and to have the weights we can execute
+
+```bash
+$ python3 scripts/train.py experiments/exp3/exp3.yml
+```
+
+and after we have it we can run the **Model Evaluation_img.ipynb** that can be found in the model evaluation folder
+
 ### 4.3. Ensembled Model
 Base models to ensemble NLP name and NLP name + descriptions and image model
 **Notebook ensembled model I**  - Here we explore different combinations of models based on different weights. Here we saved the different models 
