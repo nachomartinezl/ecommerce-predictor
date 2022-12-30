@@ -49,7 +49,7 @@ To Download the Images we can excute
 ```bash
 $ python3 scripts/Download_data.py
 ```
-We analyze the content of the URL  that corresponds to the images in the notebook **Images_analysis** that is inside the EDA folder. 
+We analyze the content of the URL  that corresponds to the images in the notebook `Images_analysis` that is inside the EDA folder. 
 
 ## 4. Modelling
 
@@ -63,7 +63,7 @@ The training folder is divided into three folders according to the kind of model
 Here you will find all the notebooks dedicated to train different NLP models. You can start with the `NB0_data_set_prep_and_training.ipynb`. In it, you will find instructions and examples about how to generate the dataset, preprocess the data, train and evaluate your models.
 
 ### 4.2. Computer Vision Model
-For the **baseline_model** that can be found in the followings folders: model_training/CV_models we use the data in data/data_baseline that we can obtain runing the following commands
+For the `baseline_model` that can be found in the followings folders: `model_training/CV_models` we use the data in `data/data_baseline` that we can obtain runing the following commands
 ```bash
 $ python3 scripts/prepare_train_test_baseline.py data_img data/prod_dataset_labels.csv data_splitted
 ```
@@ -77,7 +77,7 @@ and to have the weights we can execute
 $ python3 scripts/train.py experiments/exp3/exp3.yml
 ```
 
-and after we have it we can run the **Model Evaluation_img.ipynb** that can be found in the model evaluation folder
+and after we have it we can run the `Model Evaluation_img.ipynb` that can be found in the model evaluation folder
 
 ### 4.3. Ensembled Model
 
