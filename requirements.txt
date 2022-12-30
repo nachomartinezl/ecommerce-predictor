@@ -15,4 +15,9 @@ anytree==2.8.0
 hiclass==4.2.7
 protobuf==3.20.*
 tensorflow==2.8.0
+<<<<<<< HEAD
 wordcloud==1.8.2
+=======
+image== 1.5.33
+urllib3== 1.26.13
+>>>>>>> refs/remotes/origin/main

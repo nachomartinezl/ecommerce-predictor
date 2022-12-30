@@ -5,12 +5,12 @@ from sklearn import metrics
 from sklearn.preprocessing import label_binarize
 import os
 os.chdir("/home/app/src/")
-from model.utils import decoder
+from utils.decoder import decoder2
 import os
 import datetime
 import tensorflow as tf
 
-from scripts import tree_utils
+from utils import tree_utils
 
 def get_performance(model, pred_labels, true_labels, average, tree, probs ,vectorizer=None):
     """
@@ -27,8 +27,8 @@ def get_performance(model, pred_labels, true_labels, average, tree, probs ,vecto
     
     time_exp = str(datetime.datetime.now())
     #true_labels = np.array(true_labels)
-    y_true = decoder(true_labels) #antes y_test
-    y_pred = decoder(pred_labels) # antes predictions
+    y_true = decoder2(true_labels) #antes y_test
+    y_pred = decoder2(pred_labels) # antes predictions
 
     accuracy = metrics.accuracy_score(y_true, y_pred)
     precision = metrics.precision_score(y_true, y_pred, average=average)

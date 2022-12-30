@@ -3,9 +3,10 @@ import pandas as pd
 import json
 import requests
 import os
+os.chdir('/home/app/src/') 
 
 #with open('../products.json', encoding='utf-8') as f:
-with open('products.json', encoding='utf-8') as f:
+with open('/home/app/src/data/products.json', encoding='utf-8') as f:
     prod = json.load(f)
 
 #droppping some columns
@@ -39,5 +40,5 @@ for row in df['image']:
     end = row.split('.')[-1]
     nombre_local_imagen = "row" + str(n) +'.'+ str(end)
    
-    with open("../ecommerce-predictor/data2/" + nombre_local_imagen, 'wb') as handler:
+    with open("/home/app/src/data_img/" + nombre_local_imagen, 'wb') as handler:
         handler.write(image)
