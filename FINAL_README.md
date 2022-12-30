@@ -39,7 +39,7 @@ The API is based in three micro services mounted using Docker. The one in the mi
 
 The dataset that was used can be found in the `data` folder with the name `products.json`.
 
-The EDA is located in the `EDA` folder. There are differents EDA in each one we explore different aspects of the dataset.
+The EDA is located in the `EDA` folder. There are different EDA in each one we explore different aspects of the dataset.
 
 ## 3. Preprocessing and Feature Extraction 
 
@@ -52,12 +52,12 @@ A standard normalization is performed as a first step where stopwords and contra
 Using TF-IDF, the text data from name and descriptions is vectorized and the string data is transformed in numerical data to be fed into the models.
 
 ### 3.1. Image Data
-To Download the Images we can excute
+To Download the Images we can execute
 
 ```bash
 $ python3 scripts/Download_data.py
 ```
-We analyze the content of the URL  that corresponds to the images in the notebook `Images_analysis` that is inside the EDA folder. 
+We analyze the URL content that correspondsto the images in the notebook `Images_analysis` that is inside the EDA folder. 
 
 ## 4. Modelling
 
@@ -71,11 +71,11 @@ The training folder is divided into three folders according to the kind of model
 Here you will find all the notebooks dedicated to train different NLP models. You can start with the `NB0_data_set_prep_and_training.ipynb`. In it, you will find instructions and examples about how to generate the dataset, preprocess the data, train and evaluate your models.
 
 ### 4.2. Computer Vision Model
-For the `baseline_model` that can be found in the followings folders: `model_training/CV_models` we use the data in `data/data_baseline` that we can obtain runing the following commands
+For the `baseline_model` that can be found in the followings folders: `model_training/CV_models` we use the data in `data/data_baseline` that we can obtain running the following commands
 ```bash
 $ python3 scripts/prepare_train_test_baseline.py data_img data/prod_dataset_labels.csv data_splitted
 ```
-For the next model we used an EfficientNet model pretrained with ImageNet to have the data in the folders we need we have to execute:
+For the next model we used an EfficientNet model pre-trained with ImageNet to have the data in the folders we need we have to execute:
 ```bash
 $ python3 scripts/prepare_train_test_dataset.py data_img data/prod_dataset_labels.csv data_splitted
 ```
