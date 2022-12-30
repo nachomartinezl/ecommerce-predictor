@@ -17,7 +17,24 @@ Meanwhile textual data input - the name of the product and its description - is 
 
 <img src="https://user-images.githubusercontent.com/103912003/210112307-54f897eb-cf8c-4ead-a9f1-83716e0c5384.png" width="400" />
 
+## Run the API
+You can run the API by running the following command from the root directory of the project:
+
+```bash
+docker compose up --build
+```
+
+The application will be accesible then from 'localhost' in the browser.
+
 ## 1. API Structure 
+
+The API is based in three micro services mounted using Docker. The one in the middle: the message broker, handles all the requests made from the web service end and the ML service, managing the jobs queue and the hash table that stores every result to be retrieved after making a prediction:
+
+- 1. Web service: designed with HTML, CSS, JS and Flask.
+- 2. Message broker: based on Redis.
+- 3. ML service: uses pretrained models.
+
+
 ## 2. Dataset and EDA 
 ## 3. Preprocessing and Feature Extraction 
 ### 3.1. Text Data
