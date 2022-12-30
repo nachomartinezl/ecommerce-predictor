@@ -95,7 +95,7 @@ In `model_evaluation` you can find an evaluation of the ensembled model that bac
 The evaluation is carried out in the ensemble_model_II.ipynb notebook
 
 ## 6. Improvement Proposals
-Finally, you can find a list of possible improvements for the API, model, preprocessing, and other aspects relative to the project we developed 
+Finally, you can find a list of possible improvements for the API, model, preprocessing, and other aspects relative to the project we developed in `improvement_proposals.md`
 
 Thank you for read! 
 
