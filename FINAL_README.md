@@ -36,6 +36,10 @@ The API is based in three micro services mounted using Docker. The one in the mi
 
 
 ## 2. Dataset and EDA 
+
+The dataset that was used can be found in the `data` folder with the name `products.json`
+The EDA is located in the `EDA` folder. There are differents EDA in each one we explore different aspects of the dataset
+
 ## 3. Preprocessing and Feature Extraction 
 ### 3.1. Text Data
 ### 3.1. Image Data
