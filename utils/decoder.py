@@ -50,5 +50,7 @@ def decode_id_path(cat_id:str):
 def decoder(x):
   return np.vectorize(decode_id(x))
 
+decoder2 = np.vectorize(decode_id)
+
 def decoder_path(x):
   return np.vectorize(decode_id_path(x))
