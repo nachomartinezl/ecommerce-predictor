@@ -64,8 +64,6 @@ The design of this model, first evaluations, and predictions are all displayed i
 
 This model ensembles one NLP model trained on the name of products to be classified, another trained on descriptions of the product, and finally, a computer vision model trained on the image of the products
 
-**Notebook ensembled model II** ensembled model selected in the previous notebook and that will be backed our API. 
-
 ## 5. Model Evaluation
 
 In `model_evaluation` you can find an evaluation of the ensembled model that backed our API. This is evaluation is based on the prediction on test set given by our model and focuses on the model resulting from the ensemble of the NLP's models. 
