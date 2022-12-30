@@ -42,7 +42,15 @@ The dataset that was used can be found in the `data` folder with the name `produ
 The EDA is located in the `EDA` folder. There are differents EDA in each one we explore different aspects of the dataset.
 
 ## 3. Preprocessing and Feature Extraction 
+
+There is a threshold applied to all the dataset that creates a category 'other' to replace every category with less than 100 samples.
+
 ### 3.1. Text Data
+
+A standard normalization is performed as a first step where stopwords and contractions are removed, as well as special characters and upper cases... see `text_normalizer.py` for more details regarding this step.
+
+Using TF-IDF, the text data from name and descriptions is vectorized and the string data is transformed in numerical data to be fed into the models.
+
 ### 3.1. Image Data
 To Download the Images we can excute
 
