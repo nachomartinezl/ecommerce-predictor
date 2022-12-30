@@ -60,6 +60,18 @@ class Combined_Model:
 
         return prob_cat
 
+    def predict(self, X_list, estimators):
+        pred_prob_cat = self.predict_proba(X_list, estimators)
+        cat = np.argmax(pred_prob_cat, axis=1)
+        
+        classes = estimators[0].classes_
+        name_cat_max = []
+        
+        for idx in cat:
+            nm_cat = classes[idx]
+            name_cat_max.append(nm_cat)
+        return np.array(name_cat_max)
+
     def predict_best_five(self, X_list, estimators, max_k_feat):
         """
         Selects the k classes with highest probability for samples in X_list obtained from predict_proba() method .
