@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import metrics
 from sklearn.preprocessing import label_binarize
-from utils.decoder import decoder
+from utils.decoder import decoder, decode_id
 import os
 import datetime
 import anytree
@@ -37,7 +37,9 @@ def get_performance(model, pred_labels, true_labels, probs, average, tree, vecto
     filename = f"model/experiments/exp{time_exp}/model.txt"
     os.makedirs(os.path.dirname(filename), exist_ok=False)
     with open(filename, "w") as f:
-        f.write(str(model.get_params))
+        if model != None:
+          f.write(str(model.get_params))
+
         if vectorizer != None:
           f.write(str(vectorizer.get_params))
 
